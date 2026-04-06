@@ -151,6 +151,36 @@ def logout():
 def dashboard():
     return render_template('dashboard.html', username=session.get('username'))
 
+@app.route('/projects')
+@login_required
+def projects():
+    """Страница управления проектами"""
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute('SELECT username FROM users WHERE id = ?', (session['user_id'],))
+    user = c.fetchone()
+    conn.close()
+    
+    return render_template('projects.html', user={'username': user[0]})
+
+@app.route('/project/<project_id>')
+@login_required
+def project_detail(project_id):
+    """Детальная страница проекта"""
+    from orchestrator.core.database import Database
+    db = Database()
+    
+    project = db.get_project(project_id)
+    if not project:
+        return "Проект не найден", 404
+    
+    tasks = db.get_tasks_by_project(project_id)
+    
+    return render_template('project_detail.html', 
+                         project=project,
+                         tasks=tasks,
+                         user={'username': session.get('username')})
+
 @app.route('/profile')
 @login_required
 def profile():
