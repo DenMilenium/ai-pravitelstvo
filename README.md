@@ -2,7 +2,7 @@
 
 > *Цифровое государство, управляемое искусственным интеллектом*
 > 
-> **🚀 Текущий состав: 42 активных агента!**
+> **🚀 Текущий состав: 47 активных агентов!**
 
 ---
 
@@ -17,7 +17,7 @@
 
 ---
 
-## 🤖 Армия Агентов (42)
+## 🤖 Армия Агентов (47)
 
 ### 🖥️ Десктоп (4 агента)
 | Агент | Технологии | Статус |
@@ -125,6 +125,15 @@
 |-------|------------|--------|
 | Email-Agent | HTML Email, MJML | ✅ Готов |
 
+### 📦 Open Source & Integration (5 агентов)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| OpenSource-Agent | OSS, License Check | ✅ Готов |
+| Integration-Agent | API Gateway, Webhooks | ✅ Готов |
+| Library-Agent | Package Selection | ✅ Готов |
+| Dependency-Agent | Updates, Renovate | ✅ Готов |
+| Scan-Agent | Security Scanning | ✅ Готов |
+
 ---
 
 ## 📋 Министерства
@@ -218,7 +227,7 @@ python agents/mobile_agent.py "Chat app" --framework flutter
 
 | Метрика | Значение |
 |---------|----------|
-| **Активных агентов** | **42** |
+| **Активных агентов** | **47** |
 | Всего проектов | 6+ |
 | Строк кода | 📈 растёт |
 | Открытых issue | [Смотреть](../../issues) |
@@ -254,10 +263,10 @@ python agents/mobile_agent.py "Chat app" --framework flutter
 ---
 
 <p align="center">
-  <strong>🤖 AI Правительство — 42 агента, готовых к работе!</strong>
+  <strong>🤖 AI Правительство — 47 агентов, готовых к работе!</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Агенты-42-brightgreen" alt="42 Agents" />
+  <img src="https://img.shields.io/badge/Агенты-47-brightgreen" alt="47 Agents" />
   <img src="https://img.shields.io/badge/Статус-активен-blue" alt="Active" />
 </p>

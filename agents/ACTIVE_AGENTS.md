@@ -1,6 +1,6 @@
 # 🤖 AI IT-компания "Цифровое Правительство"
 
-> **Активных агентов: 42** 🚀
+> **Активных агентов: 47** 🚀
 
 ## Список агентов по направлениям
 
@@ -74,23 +74,28 @@
 ### 📧 Email (1)
 - 📧 Email-Agent — HTML Email, MJML
 
+### 📦 Open Source & Integration (5) 🆕
+- 📦 **OpenSource-Agent** — Поиск OSS, проверка лицензий
+- 🔗 **Integration-Agent** — Интеграция сервисов, API Gateway
+- 📚 **Library-Agent** — Подбор библиотек, аудит
+- 📦 **Dependency-Agent** — Управление зависимостями
+- 🔍 **Scan-Agent** — Сканирование, поиск решений
+
 ### 🎯 Управление (2)
 - 📊 PM-Agent — Product Manager
 - 🎯 Dispatcher — Task routing
 
 ---
 
-## Итого: 42 агента
+## Итого: 47 агентов
 
-**Третья волна завершена!** 🎉
+**Open Source волна завершена!** 🎉
 
-Осталось до цели 80: **+38 агентов**
+Осталось до цели 80: **+33 агента**
 
-### Новые агенты третьей волны:
-- 🔐 **Auth-Agent** — JWT, OAuth2, RBAC
-- 🗂️ **CMS-Agent** — Strapi, Contentful
-- 🐍 **Django-Agent** — Django, DRF
-- 🚀 **Laravel-Agent** — Laravel, PHP
-- 💳 **Payment-Agent** — Stripe, PayPal
-- 🔍 **SEO-Agent** — SEO, Schema.org
-- 📧 **Email-Agent** — Email шаблоны
+### Новые агенты Open Source волны:
+- 📦 **OpenSource-Agent** — База OSS решений, проверка лицензий
+- 🔗 **Integration-Agent** — API Gateway, Webhooks, Service Connectors
+- 📚 **Library-Agent** — Рекомендации библиотек (JS/Python/Go/Rust)
+- 📦 **Dependency-Agent** — Обновления, Renovate, аудит
+- 🔍 **Scan-Agent** — Сканирование репозиториев, поиск решений
