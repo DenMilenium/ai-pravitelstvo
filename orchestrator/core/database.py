@@ -312,9 +312,10 @@ class Database:
             
             params.append(task_id)
             
-            cursor.execute(f''
-                UPDATE tasks SET {', '.join(updates)} WHERE id = ?
-            '', params)
+            cursor.execute(
+                f"UPDATE tasks SET {', '.join(updates)} WHERE id = ?",
+                params
+            )
             conn.commit()
     
     def get_tasks_by_project(self, project_id: str) -> List[Task]:
