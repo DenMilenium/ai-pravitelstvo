@@ -1,0 +1,37 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card" style="max-width: 600px; margin: 0 auto;">
+        <div class="card-header">
+            <h2 class="card-title">👤 Профиль пользователя</h2>
+        </div>
+        <div class="card-body">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary), #ff6b6b); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                    👤
+                </div>
+                <h3 style="font-size: 24px; margin-bottom: 8px;">{{ user[0] }}</h3>
+                <p style="color: var(--text-muted);">{{ user[1] }}</p>
+            </div>
+
+            <div style="display: grid; gap: 16px;">
+                <div style="display: flex; justify-content: space-between; padding: 16px; background: #f9fafb; border-radius: 12px;">
+                    <span style="color: var(--text-muted);">Дата регистрации</span>
+                    <strong>{{ user[2] }}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 16px; background: #f9fafb; border-radius: 12px;">
+                    <span style="color: var(--text-muted);">Последний вход</span>
+                    <strong>{{ user[3] or 'Нет данных' }}</strong>
+                </div>
+            </div>
+
+            <div style="margin-top: 32px; text-align: center;">
+                <button class="btn btn-primary" onclick="openPasswordModal()">
+                    🔒 Сменить пароль
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AI Правительство</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e94560;
+            --primary-dark: #d63d56;
+            --secondary: #16213e;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-muted: #6c757d;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .btn-logout {
+            padding: 8px 16px;
+            background: var(--bg);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #fee;
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-icon.blue { background: #eff6ff; }
+        .stat-icon.green { background: #f0fdf4; }
+        .stat-icon.orange { background: #fff7ed; }
+        .stat-icon.purple { background: #faf5ff; }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-change.positive { color: var(--success); }
+        .stat-change.negative { color: var(--danger); }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Agents Table */
+        .agents-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .agents-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #f9fafb;
+        }
+
+        .agents-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 14px;
+        }
+
+        .agents-table tr:hover td {
+            background: #f9fafb;
+        }
+
+        .agent-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .agent-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), #ff6b6b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .agent-info strong {
+            display: block;
+            font-weight: 600;
+        }
+
+        .agent-info span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.active {
+            background: #f0fdf4;
+            color: var(--success);
+        }
+
+        .status-badge.inactive {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: white;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--bg);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Category Chart */
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .category-name {
+            font-weight: 500;
+        }
+
+        .category-count {
+            color: var(--text-muted);
+        }
+
+        .category-bar {
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .category-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .category-fill.blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .category-fill.green { background: linear-gradient(90deg, #10b981, #34d399); }
+        .category-fill.orange { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .category-fill.purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .category-fill.red { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        /* Activity List */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Password Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            padding: 32px;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #f0fdf4;
+            color: #166534;
+            display: block;
+        }
+
+        .alert.error {
+            background: #fef2f2;
+            color: #991b1b;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🏛️</span>
+            <span>AI Правительство</span>
+        </div>
+        <div class="user-menu">
+            <div class="user-info">
+                <div class="user-name">{{ username }}</div>
+                <div class="user-role">Администратор</div>
+            </div>
+            <button class="btn-action" onclick="openPasswordModal()">
+                🔒 Сменить пароль
+            </button>
+            <a href="/logout" class="btn-logout">Выйти</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Всего агентов</span>
+                    <div class="stat-icon blue">🤖</div>
+                </div>
+                <div class="stat-value" id="totalAgents">80</div>
+                <div class="stat-change positive">
+                    <span>↑</span> 100% от цели
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Активные</span>
+                    <div class="stat-icon green">✅</div>
+                </div>
+                <div class="stat-value" id="activeAgents">80</div>
+                <div class="stat-change positive">
+                    <span>●</span> Все работают
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Министерств</span>
+                    <div class="stat-icon orange">🏛️</div>
+                </div>
+                <div class="stat-value">8</div>
+                <div class="stat-change positive">
+                    <span>→</span> Организовано
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Запусков</span>
+                    <div class="stat-icon purple">🚀</div>
+                </div>
+                <div class="stat-value" id="totalRuns">0</div>
+                <div class="stat-change">
+                    <span>📊</span> Сегодня
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Agents List -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🤖 Агенты</h2>
+                    <button class="btn-action" onclick="loadAgents()">🔄 Обновить</button>
+                </div>
+                <div class="card-body">
+                    <div style="max-height: 600px; overflow-y: auto;">
+                        <table class="agents-table">
+                            <thead>
+                                <tr>
+                                    <th>Агент</th>
+                                    <th>Статус</th>
+                                    <th>Действие</th>
+                                </tr>
+                            </thead>
+                            <tbody id="agentsTable">
+                                <tr><td colspan="3" style="text-align: center; color: #999;">Загрузка...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- Categories -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">📊 По категориям</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="category-list" id="categoryList">
+                            <div style="text-align: center; color: #999;">Загрузка...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">🕐 Активность</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-list" id="activityList">
+                            <div style="text-align: center; color: #999;">Нет данных</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔒 Сменить пароль</h3>
+            </div>
+            
+            <div id="passwordAlert" class="alert"></div>
+            
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label>Текущий пароль</label>
+                    <input type="password" id="currentPassword" required placeholder="Введите текущий пароль">
+                </div>
+                
+                <div class="form-group">
+                    <label>Новый пароль</label>
+                    <input type="password" id="newPassword" required placeholder="Минимум 6 символов">
+                </div>
+                
+                <div class="form-group">
+                    <label>Подтвердите пароль</label>
+                    <input type="password" id="confirmPassword" required placeholder="Повторите новый пароль">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closePasswordModal()">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load agents on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAgents();
+            loadStats();
+            loadActivity();
+        });
+
+        // Load agents
+        async function loadAgents() {
+            try {
+                const response = await fetch('/api/agents');
+                const data = await response.json();
+                
+                const tbody = document.getElementById('agentsTable');
+                tbody.innerHTML = data.agents.map(agent => `
+                    <tr>
+                        <td>
+                            <div class="agent-name">
+                                <div class="agent-avatar">🤖</div>
+                                <div class="agent-info">
+                                    <strong>${agent.name}</strong>
+                                    <span>${agent.file}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge ${agent.status}">
+                                <span class="status-dot"></span>
+                                ${agent.status === 'active' ? 'Активен' : 'Неактивен'}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-action" onclick="runAgent('${agent.id}')">▶ Запустить</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading agents:', error);
+            }
+        }
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/agents/stats');
+                const data = await response.json();
+                
+                // Update categories
+                const categories = [
+                    { name: 'Десктоп', count: data.desktop || 0, color: 'blue' },
+                    { name: 'Web', count: data.web || 0, color: 'green' },
+                    { name: 'Мобильные', count: data.mobile || 0, color: 'orange' },
+                    { name: 'Облако', count: data.cloud || 0, color: 'purple' },
+                    { name: 'Инфраструктура', count: data.infrastructure || 0, color: 'red' },
+                    { name: 'Прочее', count: data.other || 0, color: 'blue' }
+                ];
+                
+                const maxCount = Math.max(...categories.map(c => c.count));
+                
+                document.getElementById('categoryList').innerHTML = categories.map(cat => {
+                    const percentage = (cat.count / maxCount) * 100;
+                    return `
+                        <div class="category-item">
+                            <div class="category-header">
+                                <span class="category-name">${cat.name}</span>
+                                <span class="category-count">${cat.count}</span>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-fill ${cat.color}" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load activity
+        async function loadActivity() {
+            try {
+                const response = await fetch('/api/logs');
+                const logs = await response.json();
+                
+                if (logs.length === 0) {
+                    document.getElementById('activityList').innerHTML = '<div style="text-align: center; color: #999;">Нет данных</div>';
+                    return;
+                }
+                
+                document.getElementById('activityList').innerHTML = logs.slice(0, 5).map(log => `
+                    <div class="activity-item">
+                        <div class="activity-icon">🤖</div>
+                        <div class="activity-content">
+                            <div class="activity-text">
+                                <strong>${log.agent}</strong> — ${log.action}
+                            </div>
+                            <div class="activity-time">${new Date(log.time).toLocaleString('ru')}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('totalRuns').textContent = logs.length;
+            } catch (error) {
+                console.error('Error loading activity:', error);
+            }
+        }
+
+        // Run agent
+        async function runAgent(agentId) {
+            try {
+                const response = await fetch(`/api/agent/${agentId}/run`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`✅ ${data.message}`);
+                    loadActivity();
+                } else {
+                    alert(`❌ ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error running agent:', error);
+            }
+        }
+
+        // Password modal
+        function openPasswordModal() {
+            document.getElementById('passwordModal').classList.add('active');
+            document.getElementById('passwordForm').reset();
+            document.getElementById('passwordAlert').className = 'alert';
+            document.getElementById('passwordAlert').textContent = '';
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('active');
+        }
+
+        // Change password
+        document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            const alert = document.getElementById('passwordAlert');
+            
+            if (newPassword !== confirmPassword) {
+                alert.className = 'alert error';
+                alert.textContent = '❌ Пароли не совпадают';
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                alert.className = 'alert error';
+                alert.textContent = '❌ Пароль должен быть минимум 6 символов';
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert.className = 'alert success';
+                    alert.textContent = '✅ ' + data.message;
+                    setTimeout(closePasswordModal, 1500);
+                } else {
+                    alert.className = 'alert error';
+                    alert.textContent = '❌ ' + data.error;
+                }
+            } catch (error) {
+                alert.className = 'alert error';
+                alert.textContent = '❌ Ошибка сервера';
+            }
+        });
+
+        // Close modal on outside click
+        document.getElementById('passwordModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePasswordModal();
+            }
+        });
+    </script>
+</body>
+</html>
