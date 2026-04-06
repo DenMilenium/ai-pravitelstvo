@@ -1,6 +1,6 @@
 # 🤖 AI IT-компания "Цифровое Правительство"
 
-> **Активных агентов: 38** 🚀
+> **Активных агентов: 42** 🚀
 
 ## Список агентов по направлениям
 
@@ -20,7 +20,7 @@
 - 📈 Analytics-Agent — Metrics, Dashboards
 - 🧩 Plugin-Agent — VS Code, Chrome extensions
 - 🔗 GraphQL-Agent — GraphQL API
-- 🌐 WebSocket-Agent — Real-time
+- 🌐 WebSocket-Agent — Socket.io, Real-time
 - 📱 PWA-Agent — Service Workers
 
 ### 📱 Mobile (3)
@@ -43,6 +43,12 @@
 - 🔒 SecOps-Agent — Security
 - 🧪 Test-Agent — QA, Testing
 
+### 🔐 Авторизация (1)
+- 🔐 Auth-Agent — JWT, OAuth2, SSO
+
+### 🗂️ CMS (1)
+- 🗂️ CMS-Agent — Strapi, Contentful
+
 ### 📝 Документация (1)
 - 📚 TechWriter-Agent — Technical docs
 
@@ -50,10 +56,23 @@
 - 🎨 Figma-Agent — Design System
 - 🎯 ThreeJS-Agent — 3D Web
 
+### 🐍 Бэкенд PHP/Python (2)
+- 🐍 Django-Agent — Django, DRF
+- 🚀 Laravel-Agent — Laravel, PHP
+
+### 💳 Платежи (1)
+- 💳 Payment-Agent — Stripe, PayPal
+
 ### 🎮 Специализации (3)
 - 🎮 GameDev-Agent — Unity, Godot
 - ⛓️ Blockchain-Agent — Solidity, Web3
 - 💬 ChatBot-Agent — Telegram, Discord bots
+
+### 🔍 Маркетинг (1)
+- 🔍 SEO-Agent — SEO оптимизация
+
+### 📧 Email (1)
+- 📧 Email-Agent — HTML Email, MJML
 
 ### 🎯 Управление (2)
 - 📊 PM-Agent — Product Manager
@@ -61,8 +80,17 @@
 
 ---
 
-## Итого: 38 агентов
+## Итого: 42 агента
 
-**Вторая волна завершена!** 🎉
+**Третья волна завершена!** 🎉
 
-Осталось до цели 80: **+42 агента**
+Осталось до цели 80: **+38 агентов**
+
+### Новые агенты третьей волны:
+- 🔐 **Auth-Agent** — JWT, OAuth2, RBAC
+- 🗂️ **CMS-Agent** — Strapi, Contentful
+- 🐍 **Django-Agent** — Django, DRF
+- 🚀 **Laravel-Agent** — Laravel, PHP
+- 💳 **Payment-Agent** — Stripe, PayPal
+- 🔍 **SEO-Agent** — SEO, Schema.org
+- 📧 **Email-Agent** — Email шаблоны
