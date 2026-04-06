@@ -1,6 +1,8 @@
 # 🤖 AI Правительство
 
 > *Цифровое государство, управляемое искусственным интеллектом*
+> 
+> **🚀 Текущий состав: 38 активных агентов!**
 
 ---
 
@@ -15,64 +17,110 @@
 
 ---
 
-## 🏢 Структура правительства
+## 🤖 Армия Агентов (38)
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    🏛️ КАБИНЕТ МИНИСТРОВ                  │
-│              (Руководство и стратегия)                  │
-└─────────────────────────────────────────────────────────┘
-                           │
-    ┌──────────────────────┼──────────────────────┐
-    │                      │                      │
-    ▼                      ▼                      ▼
-┌─────────┐         ┌────────────┐         ┌──────────┐
-│ 🖥️ Мин. │         │   ☁️ Мин.  │         │ 🔬 Мин.  │
-│ Десктоп │         │   Облака   │         │  Науки   │
-│  прилож.│         │            │         │          │
-└─────────┘         └────────────┘         └──────────┘
-    │                      │                      │
-    ▼                      ▼                      ▼
-┌─────────┐         ┌────────────┐         ┌──────────┐
-│ 📋 Мин. │         │   🔧 Мин.  │         │ 👥 Мин.  │
-│ Проектов│         │ Инфрастр.  │         │  Кадров  │
-└─────────┘         └────────────┘         └──────────┘
-```
+### 🖥️ Десктоп (4 агента)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| PyQt-Agent | Python, PyQt6 | ✅ Готов |
+| Tauri-Agent | Rust, WebView | ✅ Готов |
+| Electron-Agent | Electron, React | ✅ Готов |
+| System-Agent | System utilities | ✅ Готов |
+
+### 🌐 Web (11 агентов)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| Frontend-Agent | React, TypeScript | ✅ Готов |
+| Backend-Agent | Go, Python | ✅ Готов |
+| FullStack-Agent | Next.js, MERN | ✅ Готов |
+| UI-Agent | CSS, Tailwind | ✅ Готов |
+| UX-Agent | User Flow, Wireframes | ✅ Готов |
+| Nocode-Agent | Zapier, n8n, Retool | ✅ Готов |
+| Analytics-Agent | Metrics, Dashboards | ✅ Готов |
+| Plugin-Agent | VS Code, Chrome | ✅ Готов |
+| GraphQL-Agent | GraphQL, Apollo | ✅ Готов |
+| WebSocket-Agent | Socket.io, Real-time | ✅ Готов |
+| PWA-Agent | Service Workers | ✅ Готов |
+
+### 📱 Mobile (3 агента)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| Mobile-Agent | Flutter, React Native | ✅ Готов |
+| iOS-Agent | Swift, SwiftUI | ✅ Готов |
+| Android-Agent | Kotlin, Jetpack | ✅ Готов |
+
+### 🤖 AI/ML (2 агента)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| ML-Agent | PyTorch, TensorFlow | ✅ Готов |
+| Data-Agent | ETL, Pipelines | ✅ Готов |
+
+### 🏗️ Инфраструктура (5 агентов)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| Architect-Agent | C4 Model, Patterns | ✅ Готов |
+| Cloud-Agent | Terraform, AWS | ✅ Готов |
+| Database-Agent | PostgreSQL, MongoDB | ✅ Готов |
+| Docker-Agent | Containers | ✅ Готов |
+| K8s-Agent | Kubernetes | ✅ Готов |
+
+### 🔒 Безопасность (2 агента)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| SecOps-Agent | Security, Audit | ✅ Готов |
+| Test-Agent | QA, Testing | ✅ Готов |
+
+### 📝 Документация (1 агент)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| TechWriter-Agent | Docs, README | ✅ Готов |
+
+### 🎨 Дизайн (2 агента)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| Figma-Agent | Design System | ✅ Готов |
+| ThreeJS-Agent | 3D Web | ✅ Готов |
+
+### 🎮 Специализации (3 агента)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| GameDev-Agent | Unity, Godot | ✅ Готов |
+| Blockchain-Agent | Solidity, Web3 | ✅ Готов |
+| ChatBot-Agent | Telegram, Discord | ✅ Готов |
+
+### 🎯 Управление (2 агента)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| PM-Agent | Product Manager | ✅ Готов |
+| Dispatcher | Task routing | ✅ Готов |
 
 ---
 
 ## 📋 Министерства
 
 ### 🖥️ Министерство Десктопных Приложений
-**Директор:** `ministry-desktop@ai-gov.ru`  
 **Направление:** Разработка ПО для Windows, Linux, macOS
 
 | Проект | Статус | Описание |
 |--------|--------|----------|
-| AI-Помощник | 🟡 В разработке | Локальный AI-ассистент для ПК |
-| CodeForge | 🟢 Активен | IDE с AI-функциями |
-| SecureVault | 🔵 Планируется | Криптографический менеджер |
+| AI-Помощник | ✅ Готов | Локальный AI-ассистент для ПК (PyQt6) |
 
 [Подробнее →](./ministries/desktop/README.md)
 
 ---
 
 ### ☁️ Министерство Облачных Решений
-**Директор:** `ministry-cloud@ai-gov.ru`  
 **Направление:** SaaS, PaaS, облачная инфраструктура
 
 | Проект | Статус | Описание |
 |--------|--------|----------|
-| CloudMind | 🟡 В разработке | Облачная AI-платформа |
-| DataStream | 🟢 Активен | Платформа потоковой обработки |
-| NeuralAPI | 🔵 Планируется | API-шлюз для ML-моделей |
+| CloudMind API | ✅ Готов | Облачная AI-платформа (Go + Gin) |
 
 [Подробнее →](./ministries/cloud/README.md)
 
 ---
 
 ### 🔬 Министерство Научных Исследований
-**Директор:** `ministry-research@ai-gov.ru`  
 **Направление:** R&D, ML-исследования, публикации
 
 [Подробнее →](./ministries/research/README.md)
@@ -80,7 +128,6 @@
 ---
 
 ### 📋 Министерство Проектного Управления
-**Директор:** `ministry-pm@ai-gov.ru`  
 **Направление:** Методологии, стандарты, контроль качества
 
 [Подробнее →](./ministries/pm/README.md)
@@ -88,7 +135,6 @@
 ---
 
 ### 🔧 Министерство Инфраструктуры
-**Директор:** `ministry-infra@ai-gov.ru`  
 **Направление:** DevOps, CI/CD, мониторинг, безопасность
 
 [Подробнее →](./ministries/infrastructure/README.md)
@@ -96,7 +142,6 @@
 ---
 
 ### 👥 Министерство Кадров (HR)
-**Директор:** `ministry-hr@ai-gov.ru`  
 **Направление:** Onboarding, обучение, корпоративная культура
 
 [Подробнее →](./ministries/hr/README.md)
@@ -107,7 +152,7 @@
 
 ```bash
 # Клонировать репозиторий
-git clone https://github.com/YOUR_USERNAME/ai-pravitelstvo.git
+git clone https://github.com/DenMilenium/ai-pravitelstvo.git
 cd ai-pravitelstvo
 
 # Выбрать министерство для работы
@@ -122,12 +167,28 @@ make dev
 
 ---
 
+## 🤖 Как использовать агентов
+
+Все агенты находятся в папке `agents/`:
+
+```bash
+# Запустить агента
+python agents/frontend_agent.py --help
+python agents/backend_agent.py --output ./my-project
+
+# Создать новый проект
+python agents/fullstack_agent.py "E-commerce website" --output ./shop
+python agents/mobile_agent.py "Chat app" --framework flutter
+```
+
+---
+
 ## 📊 Статистика правительства
 
 | Метрика | Значение |
 |---------|----------|
+| **Активных агентов** | **38** |
 | Всего проектов | 6+ |
-| Активных разработчиков | AI-агенты + комьюнити |
 | Строк кода | 📈 растёт |
 | Открытых issue | [Смотреть](../../issues) |
 
@@ -140,7 +201,7 @@ make dev
 1. **Форкни** репозиторий
 2. **Выбери министерство** и задачу из [Projects](../../projects)
 3. **Создай PR** с описанием решения
-4. **Получи звание** в нашем [Discord](https://discord.gg/ai-gov)
+4. **Получи звание** в нашем сообществе
 
 ---
 
@@ -156,16 +217,16 @@ make dev
 
 ## 📞 Контакты
 
-- 📧 Правительство: `cabinet@ai-gov.ru`
-- 💬 Telegram: [@AIGovOfficial](https://t.me/AIGovOfficial)
-- 🐦 Twitter/X: [@AIGovernment](https://twitter.com/AIGovernment)
+- 📧 Репозиторий: `https://github.com/DenMilenium/ai-pravitelstvo`
+- 🤖 Создатель: AI-команда
 
 ---
 
 <p align="center">
-  <strong>🤖 AI Правительство — управляем будущим вместе</strong>
+  <strong>🤖 AI Правительство — 38 агентов, готовых к работе!</strong>
 </p>
 
 <p align="center">
-  <img src="./assets/badge-government.svg" alt="AI Government" />
+  <img src="https://img.shields.io/badge/Агенты-38-brightgreen" alt="38 Agents" />
+  <img src="https://img.shields.io/badge/Статус-активен-blue" alt="Active" />
 </p>
