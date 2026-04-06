@@ -17,6 +17,16 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 CORS(app)
 
+# Подключаем Orchestrator API
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+try:
+    from orchestrator.api import orchestrator_bp
+    app.register_blueprint(orchestrator_bp)
+    print("✅ Orchestrator API подключен")
+except Exception as e:
+    print(f"⚠️ Orchestrator API не подключен: {e}")
+
 DATABASE = 'dashboard.db'
 AGENTS_DIR = Path(__file__).parent.parent / 'agents'
 
