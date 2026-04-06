@@ -1,0 +1,13 @@
+# AI-Помощник
+pyqt6>=6.5.0
+pyyaml>=6.0
+requests>=2.31.0
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+isort>=5.12.0
+pyinstaller>=5.13.0
+
+# Опционально для LLM
+# llama-cpp-python>=0.2.0

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ../../projects/cloudmind/api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - ENV=development
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - cloudmind
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=cloudmind
+      - POSTGRES_PASSWORD=cloudmind
+      - POSTGRES_DB=cloudmind
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cloudmind
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - cloudmind
+
+volumes:
+  postgres_data:
+
+networks:
+  cloudmind:
+    driver: bridge
