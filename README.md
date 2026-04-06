@@ -2,7 +2,7 @@
 
 > *Цифровое государство, управляемое искусственным интеллектом*
 > 
-> **🚀 Текущий состав: 62 активных агента!**
+> **🚀 Текущий состав: 65 активных агентов!**
 
 ---
 
@@ -17,7 +17,7 @@
 
 ---
 
-## 🤖 Армия Агентов (62)
+## 🤖 Армия Агентов (65)
 
 ### 🖥️ Десктоп (4 агента)
 | Агент | Технологии | Статус |
@@ -133,6 +133,18 @@
 | Library-Agent | Package Selection | ✅ Готов |
 | Dependency-Agent | Updates, Renovate | ✅ Готов |
 | Scan-Agent | Security Scanning | ✅ Готов |
+
+### 📢 Маркетинг & Реклама (3 агента) 🆕
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| SEO-Agent | SEO, Schema.org | ✅ Готов |
+| Ad-Agent | Кампании, Креативы, ROI | ✅ Готов |
+| Marketer-Agent | Стратегия, Funnel, CJM | ✅ Готов |
+
+### 🏛️ Департамент "Совещательная" (1 агент) 🆕
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| MiroFish-Agent | MiroFish, Симуляции | ✅ Готов |
 
 ### 🇷🇺 Яндекс Интеграции (5 агентов)
 | Агент | Технологии | Статус |
@@ -250,7 +262,7 @@ python agents/mobile_agent.py "Chat app" --framework flutter
 
 | Метрика | Значение |
 |---------|----------|
-| **Активных агентов** | **62** |
+| **Активных агентов** | **65** |
 | Всего проектов | 6+ |
 | Строк кода | 📈 растёт |
 | Открытых issue | [Смотреть](../../issues) |
@@ -286,10 +298,10 @@ python agents/mobile_agent.py "Chat app" --framework flutter
 ---
 
 <p align="center">
-  <strong>🤖 AI Правительство — 62 агента, готовых к работе!</strong>
+  <strong>🤖 AI Правительство — 65 агентов, готовых к работе!</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Агенты-62-brightgreen" alt="62 Agents" />
+  <img src="https://img.shields.io/badge/Агенты-65-brightgreen" alt="65 Agents" />
   <img src="https://img.shields.io/badge/Статус-активен-blue" alt="Active" />
 </p>
