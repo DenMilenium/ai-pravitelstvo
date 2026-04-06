@@ -1,66 +1,59 @@
-# 🤖 Активные агенты AI IT-компании "Цифровое Правительство"
+# 🤖 AI IT-компания "Цифровое Правительство"
 
-> Все агенты готовы к работе! 🟢
+> **Активных агентов: 38** 🚀
 
-## Список активных агентов (18)
+## Список агентов по направлениям
 
-### 🖥️ Министерство Десктопных Агентов
-| Агент | Роль | Технологии | Статус |
-|-------|------|------------|--------|
-| 🖥️ **PyQt-Agent** | GUI Developer | Python, PyQt6 | 🟢 Активен |
-| ⚡ **Tauri-Agent** | Cross-platform | Rust, WebView | 🟢 Активен |
-| ⚛️ **Electron-Agent** | Desktop JS | Electron, React | 🟢 Активен |
-| 🔧 **System-Agent** | System Utils | Python, Rust | 🟢 Активен |
+### 🖥️ Десктоп (4)
+- 🖥️ PyQt-Agent — Python, PyQt6
+- ⚡ Tauri-Agent — Rust, WebView
+- ⚛️ Electron-Agent — Electron, React
+- 🔧 System-Agent — System utilities
 
-### 🌐 Министерство Web-Агентов
-| Агент | Роль | Технологии | Статус |
-|-------|------|------------|--------|
-| 🌐 **Frontend-Agent** | Frontend Dev | React, TypeScript | 🟢 Активен |
-| ⚙️ **Backend-Agent** | Backend Dev | Go, Python | 🟢 Активен |
-| 🚀 **FullStack-Agent** | FullStack Dev | Next.js, MERN | 🟢 Активен |
-| 🎨 **UI-Agent** | UI Designer | CSS, Tailwind | 🟢 Активен |
-| ✨ **UX-Agent** | UX Designer | User Flow, Wireframes | 🟢 Активен |
+### 🌐 Web (8)
+- 🌐 Frontend-Agent — React, TypeScript
+- ⚙️ Backend-Agent — Go, Python
+- 🚀 FullStack-Agent — Next.js, MERN
+- 🎨 UI-Agent — CSS, Tailwind
+- ✨ UX-Agent — User Flow, Wireframes
+- 🎯 Nocode-Agent — Zapier, n8n, Retool
+- 📈 Analytics-Agent — Metrics, Dashboards
+- 🧩 Plugin-Agent — VS Code, Chrome extensions
 
-### 📱 Министерство Mobile-Агентов
-| Агент | Роль | Технологии | Статус |
-|-------|------|------------|--------|
-| 📱 **Mobile-Agent** | Mobile Dev | Flutter, React Native | 🟢 Активен |
+### 📱 Mobile (1)
+- 📱 Mobile-Agent — Flutter, React Native
 
-### 🔒 Министерство Безопасности
-| Агент | Роль | Технологии | Статус |
-|-------|------|------------|--------|
-| 🔒 **SecOps-Agent** | Security Engineer | OWASP, Audit | 🟢 Активен |
-| 🧪 **Test-Agent** | QA Engineer | pytest, jest | 🟢 Активен |
+### 🤖 AI/ML (2)
+- 🤖 ML-Agent — PyTorch, TensorFlow
+- 📊 Data-Agent — ETL, Data Engineering
 
-### 🏗️ Министерство Инфраструктуры
-| Агент | Роль | Технологии | Статус |
-|-------|------|------------|--------|
-| 🏗️ **Architect-Agent** | System Architect | C4 Model, Patterns | 🟢 Активен |
-| ☁️ **Cloud-Agent** | Cloud Engineer | Terraform, K8s | 🟢 Активен |
-| 🗄️ **Database-Agent** | DB Engineer | PostgreSQL, MongoDB | 🟢 Активен |
+### 🏗️ Инфраструктура (5)
+- 🏗️ Architect-Agent — System Architect
+- ☁️ Cloud-Agent — Terraform, AWS
+- 🗄️ Database-Agent — PostgreSQL, MongoDB
+- 🐳 Docker-Agent — Containers
+- ⚓ K8s-Agent — Kubernetes
 
-### 📝 Министерство Документации
-| Агент | Роль | Технологии | Статус |
-|-------|------|------------|--------|
-| 📚 **TechWriter-Agent** | Technical Writer | Markdown, API Docs | 🟢 Активен |
+### 🔒 Безопасность (2)
+- 🔒 SecOps-Agent — Security
+- 🧪 Test-Agent — QA, Testing
 
-### 🎯 Стратегия и управление
-| Агент | Роль | Технологии | Статус |
-|-------|------|------------|--------|
-| 📊 **PM-Agent** | Product Manager | PRD, Roadmaps | 🟢 Активен |
-| 🎯 **Dispatcher** | Router/Coordinator | Task Distribution | 🟢 Активен |
+### 📝 Документация (1)
+- 📚 TechWriter-Agent — Technical docs
+
+### 🎮 Специализации (3)
+- 🎮 GameDev-Agent — Unity, Godot
+- ⛓️ Blockchain-Agent — Solidity, Web3
+- 💬 ChatBot-Agent — Telegram, Discord bots
+
+### 🎯 Управление (2)
+- 📊 PM-Agent — Product Manager
+- 🎯 Dispatcher — Task routing
 
 ---
 
-## Итого: 18 активных агентов! 🎉
+## Итого: 38 агентов
 
-### Готовность по направлениям:
-- ✅ Десктоп: 4/4
-- ✅ Web: 5/5
-- ✅ Mobile: 1/1
-- ✅ Безопасность: 2/2
-- ✅ Инфраструктура: 3/3
-- ✅ Документация: 1/1
-- ✅ Управление: 2/2
+**Первая волна завершена!** 🎉
 
-**Полная компания готова к работе!** 🚀
+Осталось до цели 80: **+42 агента**
