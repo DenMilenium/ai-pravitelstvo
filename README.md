@@ -2,7 +2,7 @@
 
 > *Цифровое государство, управляемое искусственным интеллектом*
 > 
-> **🚀 Текущий состав: 47 активных агентов!**
+> **🚀 Текущий состав: 62 активных агента!**
 
 ---
 
@@ -17,7 +17,7 @@
 
 ---
 
-## 🤖 Армия Агентов (47)
+## 🤖 Армия Агентов (62)
 
 ### 🖥️ Десктоп (4 агента)
 | Агент | Технологии | Статус |
@@ -134,6 +134,29 @@
 | Dependency-Agent | Updates, Renovate | ✅ Готов |
 | Scan-Agent | Security Scanning | ✅ Готов |
 
+### 🇷🇺 Яндекс Интеграции (5 агентов)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| YandexMail-Agent | Яндекс Почта, SMTP/IMAP | ✅ Готов |
+| YandexAds-Agent | Яндекс Директ, Реклама | ✅ Готов |
+| YandexMetrica-Agent | Аналитика, Вебвизор | ✅ Готов |
+| YandexCloud-Agent | YC, Terraform, K8s | ✅ Готов |
+| YandexMaps-Agent | Карты, Геокодирование | ✅ Готов |
+
+### ⚙️ Инфраструктура & DevOps (10 агентов)
+| Агент | Технологии | Статус |
+|-------|------------|--------|
+| Redis-Agent | Кэш, Сессии, Pub/Sub | ✅ Готов |
+| RabbitMQ-Agent | Message Queue | ✅ Готов |
+| Elasticsearch-Agent | Поиск, ELK Stack | ✅ Готов |
+| Monitoring-Agent | Prometheus, Grafana | ✅ Готов |
+| Nginx-Agent | Reverse Proxy, SSL | ✅ Готов |
+| Backup-Agent | Резервное копирование | ✅ Готов |
+| Performance-Agent | Оптимизация, k6 | ✅ Готов |
+| SecurityScanner-Agent | Сканер безопасности | ✅ Готов |
+| APITesting-Agent | API Тестирование | ✅ Готов |
+| DocsGenerator-Agent | Документация | ✅ Готов |
+
 ---
 
 ## 📋 Министерства
@@ -227,7 +250,7 @@ python agents/mobile_agent.py "Chat app" --framework flutter
 
 | Метрика | Значение |
 |---------|----------|
-| **Активных агентов** | **47** |
+| **Активных агентов** | **62** |
 | Всего проектов | 6+ |
 | Строк кода | 📈 растёт |
 | Открытых issue | [Смотреть](../../issues) |
@@ -263,10 +286,10 @@ python agents/mobile_agent.py "Chat app" --framework flutter
 ---
 
 <p align="center">
-  <strong>🤖 AI Правительство — 47 агентов, готовых к работе!</strong>
+  <strong>🤖 AI Правительство — 62 агента, готовых к работе!</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Агенты-47-brightgreen" alt="47 Agents" />
+  <img src="https://img.shields.io/badge/Агенты-62-brightgreen" alt="62 Agents" />
   <img src="https://img.shields.io/badge/Статус-активен-blue" alt="Active" />
 </p>

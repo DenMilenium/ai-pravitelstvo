@@ -1,6 +1,6 @@
 # 🤖 AI IT-компания "Цифровое Правительство"
 
-> **Активных агентов: 47** 🚀
+> **Активных агентов: 62** 🚀
 
 ## Список агентов по направлениям
 
@@ -74,7 +74,7 @@
 ### 📧 Email (1)
 - 📧 Email-Agent — HTML Email, MJML
 
-### 📦 Open Source & Integration (5) 🆕
+### 📦 Open Source & Integration (5)
 - 📦 **OpenSource-Agent** — Поиск OSS, проверка лицензий
 - 🔗 **Integration-Agent** — Интеграция сервисов, API Gateway
 - 📚 **Library-Agent** — Подбор библиотек, аудит
@@ -85,17 +85,59 @@
 - 📊 PM-Agent — Product Manager
 - 🎯 Dispatcher — Task routing
 
+### 🇷🇺 Яндекс Интеграции (5) 🆕
+- 📧 **YandexMail-Agent** — Яндекс Почта, SMTP/IMAP, обратная связь
+- 📢 **YandexAds-Agent** — Яндекс Директ, рекламные кампании
+- 📊 **YandexMetrica-Agent** — Аналитика, цели, вебвизор
+- ☁️ **YandexCloud-Agent** — Облако, Terraform, Kubernetes
+- 🗺️ **YandexMaps-Agent** — Карты, геокодирование, доставка
+
+### ⚙️ Инфраструктура & DevOps (10) 🆕
+- 🔴 **Redis-Agent** — Кэширование, сессии, очереди
+- 🐰 **RabbitMQ-Agent** — Message Queue, Pub/Sub
+- 🔎 **Elasticsearch-Agent** — Поиск, ELK Stack
+- 📈 **Monitoring-Agent** — Prometheus, Grafana, алерты
+- 🌐 **Nginx-Agent** — Reverse proxy, SSL, балансировка
+- 💾 **Backup-Agent** — Резервное копирование
+- ⚡ **Performance-Agent** — Оптимизация, нагрузочное тестирование
+- 🛡️ **SecurityScanner-Agent** — Сканирование уязвимостей
+- 🧪 **APITesting-Agent** — Тестирование API, Postman
+- 📝 **DocsGenerator-Agent** — Генерация документации
+
 ---
 
-## Итого: 47 агентов
+## Итого: 62 агента
 
-**Open Source волна завершена!** 🎉
+**Пятая волна завершена!** 🎉
 
-Осталось до цели 80: **+33 агента**
+Осталось до цели 80: **+18 агентов**
 
-### Новые агенты Open Source волны:
-- 📦 **OpenSource-Agent** — База OSS решений, проверка лицензий
-- 🔗 **Integration-Agent** — API Gateway, Webhooks, Service Connectors
-- 📚 **Library-Agent** — Рекомендации библиотек (JS/Python/Go/Rust)
-- 📦 **Dependency-Agent** — Обновления, Renovate, аудит
-- 🔍 **Scan-Agent** — Сканирование репозиториев, поиск решений
+### Новые агенты пятой волны:
+
+**Яндекс интеграции (5):**
+- 📧 YandexMail-Agent — Полная интеграция с Яндекс Почтой
+- 📢 YandexAds-Agent — Яндекс Директ, кампании, аналитика
+- 📊 YandexMetrica-Agent — Веб-аналитика, цели
+- ☁️ YandexCloud-Agent — YC Terraform, K8s, Serverless
+- 🗺️ YandexMaps-Agent — Карты API, геокодирование
+
+**Инфраструктура (10):**
+- 🔴 Redis-Agent — Кэш, сессии, Pub/Sub
+- 🐰 RabbitMQ-Agent — Очереди сообщений
+- 🔎 Elasticsearch-Agent — Поиск, логи
+- 📈 Monitoring-Agent — Prometheus/Grafana
+- 🌐 Nginx-Agent — Веб-сервер, SSL
+- 💾 Backup-Agent — Бэкапы, S3
+- ⚡ Performance-Agent — Оптимизация, k6
+- 🛡️ SecurityScanner-Agent — Сканер безопасности
+- 🧪 APITesting-Agent — API тесты
+- 📝 DocsGenerator-Agent — Документация
+
+---
+
+**Все 5 Яндекс-агентов готовы и включают:**
+- ✅ Интеграцию с Яндекс Почтой (формы обратной связи)
+- ✅ Рекламу в Яндекс Директ (кампании, ставки)
+- ✅ Аналитику (Метрика, цели)
+- ✅ Облачную инфраструктуру (YC)
+- ✅ Карты и геосервисы
