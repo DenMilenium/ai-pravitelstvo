@@ -591,7 +591,156 @@ def api_agent_test(agent_id):
     })
 
 
-@app.route('/api/agents/start-all', methods=['POST'])
+# 📋 Каталог всех 106 агентов с описаниями
+AGENTS_CATALOG = [
+    # Frontend Core
+    {'name': 'React Agent', 'emoji': '⚛️', 'type': 'react', 'category': 'frontend', 'description': 'Создает React приложения: Dashboard, Form, Landing, App', 'tags': ['frontend', 'javascript', 'jsx']},
+    {'name': 'Vue Agent', 'emoji': '⚡', 'type': 'vue', 'category': 'frontend', 'description': 'Создает Vue 3 приложения с Composition API', 'tags': ['frontend', 'javascript', 'vue']},
+    {'name': 'Angular Agent', 'emoji': '🅰️', 'type': 'angular', 'category': 'frontend', 'description': 'Создает Angular приложения с TypeScript', 'tags': ['frontend', 'typescript', 'google']},
+    {'name': 'Svelte Agent', 'emoji': '🟥', 'type': 'svelte', 'category': 'frontend', 'description': 'Создает Svelte приложения', 'tags': ['frontend', 'javascript', 'compiler']},
+    {'name': 'Next.js Agent', 'emoji': '▲', 'type': 'nextjs', 'category': 'frontend', 'description': 'Full-stack React фреймворк с SSR', 'tags': ['frontend', 'react', 'ssr']},
+    {'name': 'Nuxt Agent', 'emoji': '⛰️', 'type': 'nuxt', 'category': 'frontend', 'description': 'Vue фреймворк с SSR', 'tags': ['frontend', 'vue', 'ssr']},
+    {'name': 'Remix Agent', 'emoji': '🎸', 'type': 'remix', 'category': 'frontend', 'description': 'Full-stack React фреймворк', 'tags': ['frontend', 'react', 'fullstack']},
+    
+    # Backend
+    {'name': 'Django Agent', 'emoji': '🐍', 'type': 'django', 'category': 'backend', 'description': 'Создает Django/DRF бэкенд', 'tags': ['backend', 'python', 'api']},
+    {'name': 'FastAPI Agent', 'emoji': '🔥', 'type': 'fastapi', 'category': 'backend', 'description': 'Современный async Python API', 'tags': ['backend', 'python', 'async']},
+    {'name': 'Node.js Agent', 'emoji': '🟢', 'type': 'nodejs', 'category': 'backend', 'description': 'Express/NestJS приложения', 'tags': ['backend', 'javascript', 'api']},
+    {'name': 'Go Agent', 'emoji': '🐹', 'type': 'go', 'category': 'backend', 'description': 'Go/Gin бэкенд с высокой производительностью', 'tags': ['backend', 'golang', 'fast']},
+    {'name': 'Ruby Agent', 'emoji': '💎', 'type': 'ruby', 'category': 'backend', 'description': 'Ruby on Rails приложения', 'tags': ['backend', 'ruby', 'mvc']},
+    {'name': 'Laravel Agent', 'emoji': '🐘', 'type': 'laravel', 'category': 'backend', 'description': 'PHP Laravel приложения', 'tags': ['backend', 'php', 'mvc']},
+    {'name': 'Java Agent', 'emoji': '☕', 'type': 'java', 'category': 'backend', 'description': 'Spring Boot приложения', 'tags': ['backend', 'java', 'enterprise']},
+    {'name': 'C# Agent', 'emoji': '#️⃣', 'type': 'csharp', 'category': 'backend', 'description': '.NET Core приложения', 'tags': ['backend', 'dotnet', 'microsoft']},
+    {'name': 'Rust Agent', 'emoji': '🦀', 'type': 'rust', 'category': 'backend', 'description': 'Actix-web приложения на Rust', 'tags': ['backend', 'rust', 'fast']},
+    
+    # Mobile
+    {'name': 'Flutter Agent', 'emoji': '📱', 'type': 'flutter', 'category': 'mobile', 'description': 'Кросс-платформенные мобильные приложения', 'tags': ['mobile', 'dart', 'cross-platform']},
+    {'name': 'iOS Agent', 'emoji': '🍎', 'type': 'ios', 'category': 'mobile', 'description': 'Swift/SwiftUI приложения для iOS', 'tags': ['mobile', 'swift', 'apple']},
+    {'name': 'Android Agent', 'emoji': '🤖', 'type': 'android', 'category': 'mobile', 'description': 'Kotlin/Jetpack Compose приложения', 'tags': ['mobile', 'kotlin', 'google']},
+    {'name': 'React Native Agent', 'emoji': '⚛️', 'type': 'react-native', 'category': 'mobile', 'description': 'React для мобильных устройств', 'tags': ['mobile', 'react', 'cross-platform']},
+    {'name': 'PWA Agent', 'emoji': '📱', 'type': 'pwa', 'category': 'mobile', 'description': 'Progressive Web Apps', 'tags': ['mobile', 'web', 'offline']},
+    
+    # Cloud & DevOps
+    {'name': 'AWS Agent', 'emoji': '☁️', 'type': 'aws', 'category': 'cloud', 'description': 'Terraform конфигурация для AWS', 'tags': ['cloud', 'aws', 'iac']},
+    {'name': 'Azure Agent', 'emoji': '🔷', 'type': 'azure', 'category': 'cloud', 'description': 'Terraform для Microsoft Azure', 'tags': ['cloud', 'azure', 'microsoft']},
+    {'name': 'GCP Agent', 'emoji': '🔵', 'type': 'gcp', 'category': 'cloud', 'description': 'Google Cloud Platform конфигурация', 'tags': ['cloud', 'gcp', 'google']},
+    {'name': 'Docker Agent', 'emoji': '🐳', 'type': 'docker', 'category': 'cloud', 'description': 'Dockerfile и docker-compose', 'tags': ['devops', 'containers', 'docker']},
+    {'name': 'Kubernetes Agent', 'emoji': '☸️', 'type': 'kubernetes', 'category': 'cloud', 'description': 'K8s манифесты и Helm чарты', 'tags': ['devops', 'k8s', 'orchestration']},
+    {'name': 'Terraform Agent', 'emoji': '🏗️', 'type': 'terraform', 'category': 'cloud', 'description': 'Infrastructure as Code', 'tags': ['devops', 'iac', 'hashicorp']},
+    {'name': 'GitHub Actions Agent', 'emoji': '🔄', 'type': 'github-actions', 'category': 'cloud', 'description': 'CI/CD пайплайны для GitHub', 'tags': ['devops', 'ci', 'github']},
+    {'name': 'GitLab CI Agent', 'emoji': '🦊', 'type': 'gitlab-ci', 'category': 'cloud', 'description': 'GitLab CI/CD конфигурация', 'tags': ['devops', 'ci', 'gitlab']},
+    {'name': 'Jenkins Agent', 'emoji': '🏗️', 'type': 'jenkins', 'category': 'cloud', 'description': 'Jenkins pipelines', 'tags': ['devops', 'ci', 'jenkins']},
+    {'name': 'Nginx Agent', 'emoji': '🌐', 'type': 'nginx', 'category': 'cloud', 'description': 'Nginx конфигурация', 'tags': ['devops', 'webserver', 'proxy']},
+    {'name': 'Apache Agent', 'emoji': '🪶', 'type': 'apache', 'category': 'cloud', 'description': 'Apache HTTP Server конфигурация', 'tags': ['devops', 'webserver', 'httpd']},
+    {'name': 'CDN Agent', 'emoji': '🌎', 'type': 'cdn', 'category': 'cloud', 'description': 'Cloudflare/AWS CloudFront конфигурация', 'tags': ['cloud', 'cdn', 'performance']},
+    {'name': 'SSL Agent', 'emoji': '🔐', 'type': 'ssl', 'category': 'cloud', 'description': 'SSL/TLS и HTTPS настройки', 'tags': ['security', 'ssl', 'https']},
+    
+    # Database
+    {'name': 'PostgreSQL Agent', 'emoji': '🐘', 'type': 'postgres', 'category': 'database', 'description': 'PostgreSQL схемы и миграции', 'tags': ['database', 'sql', 'postgres']},
+    {'name': 'MongoDB Agent', 'emoji': '🍃', 'type': 'mongodb', 'category': 'database', 'description': 'NoSQL схемы для MongoDB', 'tags': ['database', 'nosql', 'mongo']},
+    {'name': 'Redis Agent', 'emoji': '🔴', 'type': 'redis', 'category': 'database', 'description': 'Redis конфигурация и кеширование', 'tags': ['database', 'cache', 'redis']},
+    {'name': 'MySQL Agent', 'emoji': '🐬', 'type': 'mysql', 'category': 'database', 'description': 'MySQL схемы и запросы', 'tags': ['database', 'sql', 'mysql']},
+    {'name': 'Elasticsearch Agent', 'emoji': '🔍', 'type': 'elasticsearch', 'category': 'database', 'description': 'Поиск и аналитика', 'tags': ['database', 'search', 'elastic']},
+    {'name': 'Database Agent', 'emoji': '🗄️', 'type': 'database', 'category': 'database', 'description': 'Универсальная работа с БД', 'tags': ['database', 'sql', 'schema']},
+    {'name': 'GraphQL Agent', 'emoji': '🌐', 'type': 'graphql', 'category': 'database', 'description': 'GraphQL схемы и resolvers', 'tags': ['api', 'graphql', 'schema']},
+    {'name': 'Kafka Agent', 'emoji': '📨', 'type': 'kafka', 'category': 'database', 'description': 'Apache Kafka streams', 'tags': ['streaming', 'kafka', 'events']},
+    {'name': 'RabbitMQ Agent', 'emoji': '🐇', 'type': 'rabbitmq', 'category': 'database', 'description': 'Message queue конфигурация', 'tags': ['queue', 'messaging', 'amqp']},
+    
+    # Monitoring
+    {'name': 'Prometheus Agent', 'emoji': '📈', 'type': 'prometheus', 'category': 'testing', 'description': 'Метрики и мониторинг', 'tags': ['monitoring', 'metrics', 'observability']},
+    {'name': 'Grafana Agent', 'emoji': '📊', 'type': 'grafana', 'category': 'testing', 'description': 'Dashboard для метрик', 'tags': ['monitoring', 'dashboard', 'visualization']},
+    {'name': 'Sentry Agent', 'emoji': '🐛', 'type': 'sentry', 'category': 'testing', 'description': 'Error tracking', 'tags': ['monitoring', 'errors', 'tracking']},
+    {'name': 'LogRocket Agent', 'emoji': '🚀', 'type': 'logrocket', 'category': 'testing', 'description': 'Session replay', 'tags': ['monitoring', 'replay', 'analytics']},
+    {'name': 'Analytics Agent', 'emoji': '📊', 'type': 'analytics', 'category': 'testing', 'description': 'Tracking и аналитика', 'tags': ['analytics', 'metrics', 'tracking']},
+    
+    # Testing
+    {'name': 'Testing Agent', 'emoji': '🧪', 'type': 'testing', 'category': 'testing', 'description': 'Unit и integration тесты', 'tags': ['testing', 'qa', 'automation']},
+    {'name': 'Jest Agent', 'emoji': '🧪', 'type': 'jest', 'category': 'testing', 'description': 'JavaScript тестирование', 'tags': ['testing', 'javascript', 'unit']},
+    {'name': 'Cypress Agent', 'emoji': '🌲', 'type': 'cypress', 'category': 'testing', 'description': 'E2E тестирование', 'tags': ['testing', 'e2e', 'browser']},
+    {'name': 'Playwright Agent', 'emoji': '🎭', 'type': 'playwright', 'category': 'testing', 'description': 'Cross-browser тестирование', 'tags': ['testing', 'e2e', 'microsoft']},
+    {'name': 'Chromatic Agent', 'emoji': '🎨', 'type': 'chromatic', 'category': 'testing', 'description': 'Visual regression testing', 'tags': ['testing', 'visual', 'storybook']},
+    
+    # CMS
+    {'name': 'WordPress Agent', 'emoji': '📝', 'type': 'wordpress', 'category': 'frontend', 'description': 'WordPress темы и плагины', 'tags': ['cms', 'php', 'wordpress']},
+    {'name': 'Shopify Agent', 'emoji': '🛍️', 'type': 'shopify', 'category': 'frontend', 'description': 'Shopify темы и Liquid', 'tags': ['cms', 'ecommerce', 'shopify']},
+    {'name': 'Gatsby Agent', 'emoji': '⚡', 'type': 'gatsby', 'category': 'frontend', 'description': 'Static site generator', 'tags': ['ssg', 'react', 'static']},
+    {'name': 'Hugo Agent', 'emoji': '🤗', 'type': 'hugo', 'category': 'frontend', 'description': 'Go-based static generator', 'tags': ['ssg', 'go', 'static']},
+    {'name': 'Jekyll Agent', 'emoji': '💎', 'type': 'jekyll', 'category': 'frontend', 'description': 'Ruby static generator', 'tags': ['ssg', 'ruby', 'github']},
+    {'name': 'Astro Agent', 'emoji': '🚀', 'type': 'astro', 'category': 'frontend', 'description': 'Fast static site generator', 'tags': ['ssg', 'javascript', 'fast']},
+    
+    # Micro Frontend
+    {'name': 'Preact Agent', 'emoji': '⚛️', 'type': 'preact', 'category': 'frontend', 'description': 'Легкий React альтернатива', 'tags': ['frontend', 'javascript', 'lightweight']},
+    {'name': 'Alpine.js Agent', 'emoji': '🏔️', 'type': 'alpine', 'category': 'frontend', 'description': 'Легкий JS фреймворк', 'tags': ['frontend', 'javascript', 'lightweight']},
+    {'name': 'Lit Agent', 'emoji': '🔥', 'type': 'lit', 'category': 'frontend', 'description': 'Web Components', 'tags': ['frontend', 'webcomponents', 'google']},
+    {'name': 'Stimulus Agent', 'emoji': '🎮', 'type': 'stimulus', 'category': 'frontend', 'description': 'Hotwire Stimulus', 'tags': ['frontend', 'ruby', 'hotwire']},
+    {'name': 'Solid Agent', 'emoji': '💠', 'type': 'solid', 'category': 'frontend', 'description': 'Реактивный фреймворк', 'tags': ['frontend', 'javascript', 'reactive']},
+    {'name': 'Qwik Agent', 'emoji': '⚡', 'type': 'qwik', 'category': 'frontend', 'description': 'Resumable фреймворк', 'tags': ['frontend', 'javascript', 'fast']},
+    {'name': 'Electron Agent', 'emoji': '🪟', 'type': 'electron', 'category': 'frontend', 'description': 'Desktop приложения', 'tags': ['desktop', 'javascript', 'cross-platform']},
+    
+    # Config & Utils
+    {'name': 'Swagger Agent', 'emoji': '📋', 'type': 'swagger', 'category': 'utility', 'description': 'OpenAPI спецификации', 'tags': ['api', 'docs', 'openapi']},
+    {'name': 'Postman Agent', 'emoji': '📮', 'type': 'postman', 'category': 'utility', 'description': 'API коллекции', 'tags': ['api', 'testing', 'collections']},
+    {'name': 'Storybook Agent', 'emoji': '📖', 'type': 'storybook', 'category': 'utility', 'description': 'UI компоненты документация', 'tags': ['frontend', 'docs', 'ui']},
+    {'name': 'ESLint Agent', 'emoji': '🔍', 'type': 'eslint', 'category': 'utility', 'description': 'JavaScript линтинг', 'tags': ['tooling', 'javascript', 'quality']},
+    {'name': 'Prettier Agent', 'emoji': '✨', 'type': 'prettier', 'category': 'utility', 'description': 'Код форматирование', 'tags': ['tooling', 'formatting', 'quality']},
+    {'name': 'TypeScript Agent', 'emoji': '🔷', 'type': 'tsconfig', 'category': 'utility', 'description': 'TS конфигурация', 'tags': ['tooling', 'typescript', 'config']},
+    {'name': 'Webpack Agent', 'emoji': '📦', 'type': 'webpack', 'category': 'utility', 'description': 'Module bundler', 'tags': ['tooling', 'javascript', 'build']},
+    {'name': 'Vite Agent', 'emoji': '⚡', 'type': 'vite', 'category': 'utility', 'description': 'Fast build tool', 'tags': ['tooling', 'javascript', 'fast']},
+    {'name': 'Rollup Agent', 'emoji': '📦', 'type': 'rollup', 'category': 'utility', 'description': 'JS module bundler', 'tags': ['tooling', 'javascript', 'build']},
+    {'name': 'Parcel Agent', 'emoji': '📦', 'type': 'parcel', 'category': 'utility', 'description': 'Zero-config bundler', 'tags': ['tooling', 'javascript', 'build']},
+    {'name': 'Makefile Agent', 'emoji': '🛠️', 'type': 'makefile', 'category': 'utility', 'description': 'Build automation', 'tags': ['tooling', 'automation', 'build']},
+    {'name': 'Bash Agent', 'emoji': '🐚', 'type': 'bash', 'category': 'utility', 'description': 'Shell скрипты', 'tags': ['scripting', 'shell', 'automation']},
+    {'name': 'PowerShell Agent', 'emoji': '💻', 'type': 'powershell', 'category': 'utility', 'description': 'Windows scripting', 'tags': ['scripting', 'windows', 'automation']},
+    {'name': 'Cron Agent', 'emoji': '⏰', 'type': 'cron', 'category': 'utility', 'description': 'Scheduled tasks', 'tags': ['scheduling', 'automation', 'linux']},
+    {'name': 'Webhook Agent', 'emoji': '🎣', 'type': 'webhook', 'category': 'utility', 'description': 'Webhook handlers', 'tags': ['api', 'integration', 'events']},
+    
+    # Special
+    {'name': 'AI/ML Agent', 'emoji': '🧠', 'type': 'ai', 'category': 'special', 'description': 'Machine learning модели', 'tags': ['ai', 'ml', 'python']},
+    {'name': 'Chatbot Agent', 'emoji': '💬', 'type': 'chatbot', 'category': 'special', 'description': 'Создание чат-ботов', 'tags': ['ai', 'nlp', 'bot']},
+    {'name': 'GameDev Agent', 'emoji': '🎮', 'type': 'gamedev', 'category': 'special', 'description': 'Game development', 'tags': ['gaming', 'canvas', 'interactive']},
+    {'name': 'SEO Agent', 'emoji': '🔍', 'type': 'seo', 'category': 'special', 'description': 'SEO оптимизация', 'tags': ['marketing', 'seo', 'search']},
+    {'name': 'Content Agent', 'emoji': '📝', 'type': 'content', 'category': 'special', 'description': 'Генерация контента', 'tags': ['content', 'marketing', 'text']},
+    {'name': 'Documentation Agent', 'emoji': '📚', 'type': 'documentation', 'category': 'special', 'description': 'Документация и README', 'tags': ['docs', 'markdown', 'wiki']},
+    {'name': 'Security Agent', 'emoji': '🔒', 'type': 'security', 'category': 'special', 'description': 'Security audit и fixes', 'tags': ['security', 'audit', 'protection']},
+    {'name': 'Performance Agent', 'emoji': '⚡', 'type': 'performance', 'category': 'special', 'description': 'Performance optimization', 'tags': ['optimization', 'speed', 'metrics']},
+    {'name': 'Accessibility Agent', 'emoji': '♿', 'type': 'accessibility', 'category': 'special', 'description': 'a11y compliance', 'tags': ['accessibility', 'a11y', 'inclusive']},
+    {'name': 'Localization Agent', 'emoji': '🌍', 'type': 'localization', 'category': 'special', 'description': 'i18n и переводы', 'tags': ['i18n', 'l10n', 'translation']},
+    {'name': 'Email Agent', 'emoji': '📧', 'type': 'email', 'category': 'special', 'description': 'Email сервисы', 'tags': ['email', 'smtp', 'notifications']},
+    {'name': 'Notification Agent', 'emoji': '🔔', 'type': 'notifications', 'category': 'special', 'description': 'Push notifications', 'tags': ['notifications', 'push', 'mobile']},
+    {'name': 'Backup Agent', 'emoji': '💾', 'type': 'backup', 'category': 'special', 'description': 'Backup стратегии', 'tags': ['backup', 'recovery', 'data']},
+    {'name': 'Migration Agent', 'emoji': '🚚', 'type': 'migration', 'category': 'special', 'description': 'Data migrations', 'tags': ['migration', 'database', 'transfer']},
+    {'name': 'Web3 Agent', 'emoji': '⛓️', 'type': 'web3', 'category': 'special', 'description': 'Blockchain и smart contracts', 'tags': ['blockchain', 'ethereum', 'solidity']},
+    {'name': 'IoT Agent', 'emoji': '📡', 'type': 'iot', 'category': 'special', 'description': 'IoT и embedded', 'tags': ['iot', 'embedded', 'arduino']},
+    {'name': 'AR/VR Agent', 'emoji': '🥽', 'type': 'arvr', 'category': 'special', 'description': 'Augmented/Virtual reality', 'tags': ['ar', 'vr', '3d']},
+    {'name': 'Voice Agent', 'emoji': '🎤', 'type': 'voice', 'category': 'special', 'description': 'Voice interfaces', 'tags': ['voice', 'alexa', 'assistant']},
+    {'name': 'PDF Agent', 'emoji': '📄', 'type': 'pdf', 'category': 'special', 'description': 'PDF генерация', 'tags': ['pdf', 'documents', 'reports']},
+    {'name': 'Spreadsheet Agent', 'emoji': '📊', 'type': 'spreadsheet', 'category': 'special', 'description': 'Excel/CSV обработка', 'tags': ['excel', 'csv', 'data']},
+    {'name': 'QR Code Agent', 'emoji': '🔲', 'type': 'qrcode', 'category': 'special', 'description': 'QR код генерация', 'tags': ['qr', 'barcode', 'scanning']},
+    {'name': 'Image Processing Agent', 'emoji': '🖼️', 'type': 'image-processing', 'category': 'special', 'description': 'Обработка изображений', 'tags': ['images', 'processing', 'graphics']},
+    {'name': 'Video Agent', 'emoji': '🎬', 'type': 'video', 'category': 'special', 'description': 'Видео обработка', 'tags': ['video', 'ffmpeg', 'media']},
+    {'name': 'Audio Agent', 'emoji': '🎵', 'type': 'audio', 'category': 'special', 'description': 'Аудио обработка', 'tags': ['audio', 'sound', 'media']},
+    {'name': 'Web Scraping Agent', 'emoji': '🕷️', 'type': 'scraping', 'category': 'special', 'description': 'Web scraping', 'tags': ['scraping', 'crawler', 'data']},
+]
+
+@app.route('/agents')
+@login_required
+def agents_catalog():
+    """Каталог всех агентов"""
+    categories = list(set(a['category'] for a in AGENTS_CATALOG))
+    return render_template('agents_catalog.html', 
+                          agents=AGENTS_CATALOG, 
+                          categories=categories)
+
+
+@app.route('/api/agents/catalog')
+@login_required
+def api_agents_catalog():
+    """API: Полный каталог агентов"""
+    return jsonify({
+        'agents': AGENTS_CATALOG,
+        'count': len(AGENTS_CATALOG),
+        'categories': list(set(a['category'] for a in AGENTS_CATALOG))
+    })
 @login_required
 def api_agents_start_all():
     """API: Запустить всех агентов"""
