@@ -18,6 +18,15 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'ai-pravitelstvo-secret-key-2024-fixed')
 CORS(app)
 
+# 🔌 Подключаем WebSocket (SocketIO)
+try:
+    from dashboard.websocket import init_socketio, socketio
+    socketio = init_socketio(app)
+    print("✅ WebSocket (SocketIO) подключен")
+except Exception as e:
+    print(f"⚠️ WebSocket не подключен: {e}")
+    socketio = None
+
 # Подключаем Orchestrator API
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -620,4 +629,9 @@ if __name__ == '__main__':
     print("🎛️ Dashboard API запущен!")
     print("URL: http://localhost:5000")
     print("Логин: admin / admin123")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    
+    # Запускаем с WebSocket если доступен
+    if socketio:
+        socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    else:
+        app.run(debug=True, host='0.0.0.0', port=5000)
