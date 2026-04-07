@@ -509,10 +509,36 @@ class TaskExecutor:
                     artifacts=result['artifacts']
                 )
                 
+                # 🚀 АВТОПУШ в GitHub (если есть артефакты)
+                autopush_result = None
+                if result.get('artifacts'):
+                    try:
+                        from orchestrator.core.autopush_agent import AutoPushAgent
+                        autopush = AutoPushAgent()
+                        
+                        # Получаем название проекта
+                        project = self.db.get_project(task.project_id)
+                        project_name = project.name if project else None
+                        
+                        autopush_result = autopush.auto_push_task(
+                            task_id=task.id,
+                            task_title=task.title,
+                            task_description=task.description,
+                            agent_type=task.agent_type,
+                            artifacts=result['artifacts'],
+                            project_name=project_name
+                        )
+                        
+                    except Exception as e:
+                        # Автопуш не критичен — логируем ошибку но не падаем
+                        print(f"⚠️ Автопуш не удался: {e}")
+                        autopush_result = {'error': str(e)}
+                
                 return {
                     'success': True,
                     'message': result['message'],
-                    'artifacts_count': len(result['artifacts'])
+                    'artifacts_count': len(result['artifacts']),
+                    'autopush': autopush_result
                 }
             else:
                 self.db.update_task_status(task_id, TaskStatus.FAILED)
