@@ -464,6 +464,19 @@ class TaskExecutor:
             DevOpsAgentExecutor(self.db),
             ContentAgentExecutor(self.db),
         ]
+        
+        # 🆕 Подключаем новых агентов (если доступны)
+        try:
+            from orchestrator.agents.react_agent import ReactAgentExecutor
+            self.executors.append(ReactAgentExecutor(self.db))
+        except ImportError as e:
+            print(f"⚠️ React Agent не загружен: {e}")
+        
+        try:
+            from orchestrator.agents.django_agent import DjangoAgentExecutor
+            self.executors.append(DjangoAgentExecutor(self.db))
+        except ImportError as e:
+            print(f"⚠️ Django Agent не загружен: {e}")
     
     def execute_task(self, task_id: str) -> Dict:
         """
