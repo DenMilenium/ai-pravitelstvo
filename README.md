@@ -2,9 +2,90 @@
 
 > *Цифровое государство, управляемое искусственным интеллектом*
 > 
-> **🚀 Текущий состав: 80 активных агентов!**
+> **🚀 Текущий состав: 106 активных агентов!**
 > 
-> ✅ Цель достигнута — все 80 агентов созданы и работоспособны!
+> ✅ Цель превзойдена — все 106 агентов созданы и работоспособны!
+
+---
+
+## 🏛️ О проекте
+
+**AI Правительство** — это экспериментальная AI IT-компания с полноценной армией разработчиков. Каждый "агент" — это специализированный инструмент, который генерирует реальный код для своей технологии.
+
+### 🎯 Что умеет
+- **106 агентов** — от Frontend до Blockchain
+- **Генерация кода** — каждый агент создаёт рабочий проект
+- **Dashboard** — веб-интерфейс для управления
+- **GitHub интеграция** — автопуш и Pull Requests
+- **WebSocket** — live-обновления в реальном времени
+
+### 🌐 Dashboard
+
+Откройте [sribnyydenis.online](https://sribnyydenis.online) или запустите локально:
+
+```bash
+cd dashboard
+pip install -r requirements.txt
+python app.py
+```
+
+- URL: http://localhost:5000
+- Логин: `admin`
+- Пароль: `admin123`
+
+---
+
+## 🤖 Армия Агентов (106)
+
+### ⚛️ Frontend (14 агентов)
+React, Vue, Angular, Svelte, Next.js, Nuxt, Remix, WordPress, Shopify, Gatsby, Hugo, Jekyll, Astro, Electron
+
+### 🖥️ Backend (9 агентов)  
+Django, FastAPI, Node.js, Go, Ruby, Laravel, Java, C#, Rust
+
+### 📱 Mobile (5 агентов)
+Flutter, iOS, Android, React Native, PWA
+
+### ☁️ Cloud & DevOps (18 агентов)
+AWS, Azure, GCP, Docker, Kubernetes, Terraform, GitHub Actions, GitLab CI, Jenkins, Nginx, Apache, CDN, SSL
+
+### 🗄️ Database (9 агентов)
+PostgreSQL, MongoDB, Redis, MySQL, Elasticsearch, GraphQL, Kafka, RabbitMQ
+
+### 🧪 Testing & Monitoring (8 агентов)
+Prometheus, Grafana, Sentry, LogRocket, Jest, Cypress, Playwright, Chromatic
+
+### 🛠️ Utilities (19 агентов)
+Swagger, Postman, Storybook, ESLint, Prettier, TypeScript, Webpack, Vite, Rollup, Parcel, Makefile, Bash, PowerShell, Cron, Webhook
+
+### ✨ Special (24 агента)
+AI/ML, Chatbot, GameDev, SEO, Web3/Blockchain, IoT, AR/VR, Voice, PDF, Spreadsheet, QR Code, Image/Video/Audio Processing, Web Scraping
+
+📖 **Полный каталог:** [AGENTS_GUIDE.md](AGENTS_GUIDE.md)
+
+---
+
+## 🚀 Быстрый старт
+
+### Создать проект
+
+1. Откройте Dashboard
+2. Перейдите в **Проекты** → **Создать проект**
+3. Выберите агента (например, `react`)
+4. Опишите задачу
+5. Нажмите **▶️ Выполнить**
+6. Скачайте ZIP с готовым кодом!
+
+### Пример задач
+
+| Агент | Задача | Результат |
+|-------|--------|-----------|
+| React | "Создать Dashboard" | Полный React app с компонентами |
+| Django | "API для блога" | DRF с моделями и ViewSets |
+| AWS | "Настроить сервер" | Terraform конфигурация |
+| Docker | "Контейнеризация" | Dockerfile + docker-compose |
+
+---
 
 ---
 
