@@ -353,6 +353,18 @@
                                style="justify-content: center;">
                                 ⬇️ Скачать ZIP
                             </a>
+                            
+                            <button class="btn btn-info" onclick="deployProject()" 
+                                    {{ 'disabled' if project.status != 'completed' else '' }}
+                                    style="justify-content: center; background: #3b82f6; color: white;">
+                                🚀 Опубликовать
+                            </button>
+                            
+                            <a href="/projects/{{ project.id }}/" target="_blank" 
+                               class="btn btn-warning {{ 'disabled' if project.status != 'deployed' else '' }}"
+                               style="justify-content: center; background: #8b5cf6; color: white;">
+                                🔗 Открыть сайт
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -415,6 +427,24 @@
                     } else {
                         alert('❌ Ошибка: ' + (data.error || 'Неизвестная ошибка'));
                     }
+                });
+        }
+
+        function deployProject() {
+            if (!confirm('🚀 Опубликовать проект на сервере?\n\nПроект будет доступен по ссылке.')) return;
+            
+            fetch(`/api/orchestrator/projects/${projectId}/deploy`, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`✅ ${data.message}\n\n🔗 URL: ${data.url}\n📁 Файлов развёрнуто: ${data.files_deployed}`);
+                        location.reload();
+                    } else {
+                        alert('❌ Ошибка: ' + (data.message || 'Неизвестная ошибка'));
+                    }
+                })
+                .catch(e => {
+                    alert('❌ Ошибка сети: ' + e.message);
                 });
         }
 

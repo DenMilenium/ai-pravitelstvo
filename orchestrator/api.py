@@ -12,6 +12,7 @@ from orchestrator.core.database import Database, ProjectStatus, TaskStatus
 from orchestrator.agents.teamlead_agent import TeamLeadAgent
 from orchestrator.core.project_manager import ProjectManager
 from orchestrator.core.task_executor import TaskExecutor
+from orchestrator.core.deploy_agent import deploy_project_api, get_deployed_projects_api, undeploy_project_api
 
 # Создаём Blueprint
 orchestrator_bp = Blueprint('orchestrator', __name__, url_prefix='/api/orchestrator')
@@ -257,3 +258,26 @@ def execute_pending():
         'executed': len(results),
         'results': results
     })
+
+
+# ========== Deploy ==========
+
+@orchestrator_bp.route('/projects/<project_id>/deploy', methods=['POST'])
+def deploy_project_endpoint(project_id):
+    """Деплой проекта на сервер"""
+    result = deploy_project_api(project_id, db)
+    return jsonify(result)
+
+
+@orchestrator_bp.route('/projects/<project_id>/undeploy', methods=['POST'])
+def undeploy_project_endpoint(project_id):
+    """Снять проект с публикации"""
+    result = undeploy_project_api(project_id, db)
+    return jsonify(result)
+
+
+@orchestrator_bp.route('/deployed', methods=['GET'])
+def get_deployed_projects_endpoint():
+    """Получить список развёрнутых проектов"""
+    projects = get_deployed_projects_api(db)
+    return jsonify({'projects': projects})
