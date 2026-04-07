@@ -892,6 +892,81 @@ def api_system_info():
     })
 
 
+# ==================== 📊 ANALYTICS API ====================
+
+@app.route('/analytics')
+@login_required
+def analytics_page():
+    """Страница аналитики"""
+    return render_template('analytics.html')
+
+
+@app.route('/api/analytics/overview')
+@login_required
+def api_analytics_overview():
+    """API: Общая статистика"""
+    from orchestrator.utils.analytics import AnalyticsEngine
+    
+    engine = AnalyticsEngine()
+    days = request.args.get('days', 30, type=int)
+    return jsonify(engine.get_overview_stats(days))
+
+
+@app.route('/api/analytics/report')
+@login_required
+def api_analytics_report():
+    """API: Полный аналитический отчёт"""
+    from orchestrator.utils.analytics import AnalyticsEngine
+    
+    engine = AnalyticsEngine()
+    return jsonify(engine.generate_full_report())
+
+
+@app.route('/api/analytics/agents')
+@login_required
+def api_analytics_agents():
+    """API: Рейтинг агентов"""
+    from orchestrator.utils.analytics import AnalyticsEngine
+    
+    engine = AnalyticsEngine()
+    limit = request.args.get('limit', 20, type=int)
+    return jsonify({'agents': engine.get_agent_ranking(limit)})
+
+
+@app.route('/api/analytics/categories')
+@login_required
+def api_analytics_categories():
+    """API: Статистика по категориям"""
+    from orchestrator.utils.analytics import AnalyticsEngine
+    
+    engine = AnalyticsEngine()
+    return jsonify({'categories': engine.get_category_stats()})
+
+
+@app.route('/api/analytics/log', methods=['POST'])
+@login_required
+def api_analytics_log():
+    """API: Логирование события"""
+    from orchestrator.utils.analytics import AnalyticsEngine
+    
+    data = request.json
+    engine = AnalyticsEngine()
+    
+    engine.log_event(
+        agent_type=data.get('agent_type'),
+        event_type=data.get('event_type'),
+        agent_name=data.get('agent_name'),
+        project_id=data.get('project_id'),
+        task_id=data.get('task_id'),
+        duration_ms=data.get('duration_ms'),
+        artifacts_count=data.get('artifacts_count'),
+        error_message=data.get('error_message'),
+        metadata=data.get('metadata')
+    )
+    
+    return jsonify({'success': True})
+
+
 if __name__ == '__main__':
     init_db()
     print("🎛️ Dashboard API запущен!")
