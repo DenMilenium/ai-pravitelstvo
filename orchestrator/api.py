@@ -11,6 +11,7 @@ from flask import Blueprint, request, jsonify, send_file
 from orchestrator.core.database import Database, ProjectStatus, TaskStatus
 from orchestrator.agents.teamlead_agent import TeamLeadAgent
 from orchestrator.core.project_manager import ProjectManager
+from orchestrator.core.task_executor import TaskExecutor
 
 # Создаём Blueprint
 orchestrator_bp = Blueprint('orchestrator', __name__, url_prefix='/api/orchestrator')
@@ -231,3 +232,28 @@ def init_database():
         return jsonify({'success': True, 'message': 'База данных инициализирована'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+# ========== Task Execution ==========
+
+@orchestrator_bp.route('/tasks/<task_id>/execute', methods=['POST'])
+def execute_task(task_id):
+    """Выполнить задачу"""
+    executor = TaskExecutor(db)
+    result = executor.execute_task(task_id)
+    return jsonify(result)
+
+
+@orchestrator_bp.route('/execute-pending', methods=['POST'])
+def execute_pending():
+    """Выполнить все ожидающие задачи"""
+    data = request.get_json() or {}
+    agent_type = data.get('agent_type')
+    
+    executor = TaskExecutor(db)
+    results = executor.execute_pending_tasks(agent_type)
+    
+    return jsonify({
+        'executed': len(results),
+        'results': results
+    })

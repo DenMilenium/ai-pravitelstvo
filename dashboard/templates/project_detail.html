@@ -294,6 +294,9 @@
                                     <span class="status-badge badge-{{ 'success' if task.status == 'done' else 'warning' if task.status == 'in_progress' else 'secondary' }}">
                                         {{ task.status }}
                                     </span>
+                                    {% if task.status == 'pending' %}
+                                    <button class="btn btn-sm btn-primary" onclick="executeTask('{{ task.id }}')">▶️ Выполнить</button>
+                                    {% endif %}
                                 </div>
                             </li>
                             {% endfor %}
@@ -412,6 +415,24 @@
                     } else {
                         alert('❌ Ошибка: ' + (data.error || 'Неизвестная ошибка'));
                     }
+                });
+        }
+
+        function executeTask(taskId) {
+            if (!confirm('Запустить выполнение задачи?')) return;
+            
+            fetch(`/api/orchestrator/tasks/${taskId}/execute`, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`✅ ${data.message}\nСгенерировано файлов: ${data.artifacts_count}`);
+                        location.reload();
+                    } else {
+                        alert('❌ Ошибка: ' + (data.message || 'Неизвестная ошибка'));
+                    }
+                })
+                .catch(e => {
+                    alert('❌ Ошибка сети: ' + e.message);
                 });
         }
     </script>
