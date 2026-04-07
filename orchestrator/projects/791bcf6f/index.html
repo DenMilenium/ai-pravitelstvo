@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project_name }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 0; text-align: center; }
+        header h1 { font-size: 3rem; margin-bottom: 20px; }
+        header p { font-size: 1.3rem; opacity: 0.9; }
+        
+        /* Sections */
+        section { padding: 80px 0; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
+        
+        /* Features */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature { background: #f8f9fa; padding: 30px; border-radius: 10px; text-align: center; }
+        .feature-icon { font-size: 3rem; margin-bottom: 20px; }
+        .feature h3 { margin-bottom: 15px; }
+        
+        /* CTA */
+        .cta { background: #667eea; color: white; text-align: center; }
+        .btn { display: inline-block; padding: 15px 40px; background: white; color: #667eea; text-decoration: none; border-radius: 30px; font-weight: bold; margin-top: 20px; }
+        
+        /* Footer */
+        footer { background: #333; color: white; text-align: center; padding: 30px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>{{ project_name }}</h1>
+            <p>{{ project_description }}</p>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">О нас</h2>
+            <p style="text-align: center; font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+                Мы предоставляем лучшие решения для вашего бизнеса. 
+                Качество, надёжность, профессионализм.
+            </p>
+        </div>
+    </section>
+
+    <section id="features" style="background: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">Наши преимущества</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Быстрота</h3>
+                    <p>Мгновенный результат без задержек</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💎</div>
+                    <h3>Качество</h3>
+                    <p>Только лучшие материалы и решения</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Надёжность</h3>
+                    <p>Гарантия на все наши услуги</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Готовы начать?</h2>
+            <p style="font-size: 1.3rem;">Свяжитесь с нами прямо сейчас</p>
+            <a href="#contact" class="btn">Связаться</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 {{ project_name }}. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

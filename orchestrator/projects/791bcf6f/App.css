@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-header h1 {
+  margin: 0 0 16px 0;
+  font-size: 48px;
+}
+
+.App-header p {
+  margin: 0 0 32px 0;
+  opacity: 0.8;
+}
+
+.App-link {
+  color: #e94560;
+  text-decoration: none;
+  padding: 12px 24px;
+  border: 2px solid #e94560;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.App-link:hover {
+  background: #e94560;
+  color: white;
+}
