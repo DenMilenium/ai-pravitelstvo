@@ -967,8 +967,79 @@ def api_analytics_log():
     return jsonify({'success': True})
 
 
+# ==================== 🚨 ALERTS API ====================
+
+@app.route('/api/alerts')
+@login_required
+def api_alerts():
+    """API: Получение активных алертов"""
+    from orchestrator.utils.alert_system import AlertManager
+    
+    manager = AlertManager()
+    level = request.args.get('level')
+    return jsonify({'alerts': manager.get_active_alerts(level)})
+
+
+@app.route('/api/alerts/stats')
+@login_required
+def api_alerts_stats():
+    """API: Статистика алертов"""
+    from orchestrator.utils.alert_system import AlertManager
+    
+    manager = AlertManager()
+    hours = request.args.get('hours', 24, type=int)
+    return jsonify(manager.get_alert_stats(hours))
+
+
+@app.route('/api/alerts/resolve', methods=['POST'])
+@login_required
+def api_alerts_resolve():
+    """API: Отметить алерт как решённый"""
+    from orchestrator.utils.alert_system import AlertManager
+    
+    data = request.json
+    alert_id = data.get('alert_id')
+    
+    if not alert_id:
+        return jsonify({'success': False, 'error': 'alert_id required'})
+    
+    manager = AlertManager()
+    manager.resolve_alert(alert_id)
+    return jsonify({'success': True})
+
+
+@app.route('/api/alerts/test', methods=['POST'])
+@login_required
+def api_alerts_test():
+    """API: Тестовый алерт"""
+    from dashboard.websocket import broadcast_alert
+    
+    data = request.json
+    alert = {
+        'level': data.get('level', 'warning'),
+        'title': data.get('title', 'Test Alert'),
+        'message': data.get('message', 'This is a test alert'),
+        'metric_name': data.get('metric_name'),
+        'threshold_value': data.get('threshold_value'),
+        'current_value': data.get('current_value')
+    }
+    
+    broadcast_alert(alert)
+    return jsonify({'success': True, 'alert': alert})
+
+
 if __name__ == '__main__':
     init_db()
+    
+    # 🚨 Запускаем мониторинг алертов
+    try:
+        from orchestrator.utils.alert_system import AnalyticsMonitor
+        alert_monitor = AnalyticsMonitor()
+        alert_monitor.start_monitoring(interval_seconds=60)
+        print("🚨 Alert monitoring запущен")
+    except Exception as e:
+        print(f"⚠️ Alert monitoring не запущен: {e}")
+    
     print("🎛️ Dashboard API запущен!")
     print("URL: http://localhost:5000")
     print("Логин: admin / admin123")

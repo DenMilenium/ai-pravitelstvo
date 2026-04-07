@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📊 Аналитика | AI Правительство</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <style>
         :root {
             --primary: #e94560;
@@ -260,8 +261,16 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>📊 Аналитика</h1>
-            <p>Статистика использования агентов и производительность системы</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>📊 Аналитика</h1>
+                    <p>Статистика использования агентов и производительность системы</p>
+                </div>
+                <div class="live-indicator" id="liveIndicator">
+                    <span class="live-dot"></span>
+                    <span>LIVE</span>
+                </div>
+            </div>
         </div>
 
         <!-- Overview Stats -->
@@ -490,7 +499,260 @@
         }
 
         // Load on page load
-        document.addEventListener('DOMContentLoaded', loadAnalytics);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAnalytics();
+            initWebSocket();
+        });
+
+        // ========== 🔄 WebSocket Real-time ==========
+        let socket;
+        
+        function initWebSocket() {
+            socket = io();
+            
+            socket.on('connect', () => {
+                console.log('✅ WebSocket connected');
+                socket.emit('join_analytics');
+                showToast('🔄 Real-time подключено', 'success');
+            });
+            
+            socket.on('analytics_update', (data) => {
+                console.log('📊 Analytics update:', data);
+                updateLiveStats(data);
+            });
+            
+            socket.on('alert', (alert) => {
+                console.log('🚨 Alert:', alert);
+                showAlert(alert);
+            });
+            
+            socket.on('disconnect', () => {
+                console.log('❌ WebSocket disconnected');
+                showToast('⚠️ Real-time отключено', 'warning');
+            });
+        }
+        
+        function updateLiveStats(data) {
+            // Анимация обновления
+            const totalEl = document.getElementById('totalExecutions');
+            if (totalEl && data.total_executions) {
+                animateValue(totalEl, parseInt(totalEl.textContent) || 0, data.total_executions, 500);
+            }
+        }
+        
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current);
+            }, 16);
+        }
+        
+        // ========== 🚨 Alert System ==========
+        function showAlert(alert) {
+            const container = document.getElementById('alertContainer') || createAlertContainer();
+            
+            const alertEl = document.createElement('div');
+            alertEl.className = `alert-banner alert-${alert.level}`;
+            alertEl.innerHTML = `
+                <div class="alert-content">
+                    <span class="alert-icon">${alert.level === 'critical' ? '🚨' : alert.level === 'warning' ? '⚠️' : 'ℹ️'}</span>
+                    <div class="alert-text">
+                        <strong>${alert.title}</strong>
+                        <p>${alert.message}</p>
+                    </div>
+                    <button class="alert-close" onclick="this.parentElement.parentElement.remove()">✕</button>
+                </div>
+            `;
+            
+            container.appendChild(alertEl);
+            
+            // Авто-удаление через 10 секунд
+            setTimeout(() => {
+                if (alertEl.parentElement) {
+                    alertEl.style.opacity = '0';
+                    setTimeout(() => alertEl.remove(), 300);
+                }
+            }, 10000);
+            
+            // Воспроизвести звук для critical
+            if (alert.level === 'critical') {
+                playAlertSound();
+            }
+        }
+        
+        function createAlertContainer() {
+            const container = document.createElement('div');
+            container.id = 'alertContainer';
+            container.className = 'alert-container';
+            document.body.appendChild(container);
+            return container;
+        }
+        
+        function playAlertSound() {
+            // Простой beep через Web Audio API
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + 0.5);
+            } catch (e) {
+                console.log('Audio not available');
+            }
+        }
+        
+        function showToast(message, type = 'info') {
+            // Простая реализация toast
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                padding: 12px 24px;
+                background: ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+                color: white;
+                border-radius: 8px;
+                font-weight: 500;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
     </script>
+    
+    <style>
+        /* Alert Styles */
+        .alert-container {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            width: 400px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .alert-banner {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-left: 4px solid;
+            animation: slideInRight 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .alert-banner.alert-critical {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .alert-banner.alert-warning {
+            border-left-color: #f59e0b;
+            background: #fff7ed;
+        }
+        
+        .alert-banner.alert-info {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .alert-content {
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .alert-icon {
+            font-size: 24px;
+        }
+        
+        .alert-text {
+            flex: 1;
+        }
+        
+        .alert-text strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #1a1a2e;
+        }
+        
+        .alert-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .alert-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #6c757d;
+            padding: 4px;
+        }
+        
+        .alert-close:hover {
+            color: #1a1a2e;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Live indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: #f0fdf4;
+            color: #166534;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+    </style>
 </body>
 </html>

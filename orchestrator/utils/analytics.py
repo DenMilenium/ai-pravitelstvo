@@ -97,6 +97,20 @@ class AnalyticsEngine:
             
             # Обновляем агрегации
             self._update_aggregations(conn, agent_type, event_type)
+        
+        # 🔄 Отправляем WebSocket обновление
+        try:
+            from dashboard.websocket import broadcast_analytics_update
+            broadcast_analytics_update({
+                'event_type': event_type,
+                'agent_type': agent_type,
+                'agent_name': agent_name,
+                'project_id': project_id,
+                'timestamp': datetime.now().isoformat()
+            })
+        except Exception as e:
+            # WebSocket не критичен
+            pass
     
     def _update_aggregations(self, conn: sqlite3.Connection, agent_type: str, event_type: str):
         """Обновление агрегированных данных"""

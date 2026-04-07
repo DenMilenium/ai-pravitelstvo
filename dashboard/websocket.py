@@ -169,6 +169,48 @@ def broadcast_agent_status(agent_id: str, status: str, message: str = None):
     socketio.emit('agent_status', payload, broadcast=True)
 
 
+# ========== Real-time Analytics ==========
+
+def broadcast_analytics_update(data: dict):
+    """
+    Отправляет обновление аналитики в реальном времени
+    
+    Args:
+        data: Данные аналитики {event_type, agent_type, timestamp, ...}
+    """
+    payload = {
+        'type': 'analytics_update',
+        'timestamp': datetime.now().isoformat(),
+        **data
+    }
+    
+    socketio.emit('analytics_update', payload, room='analytics')
+    socketio.emit('analytics_update', payload, broadcast=True)
+
+
+def broadcast_alert(alert: dict):
+    """
+    Отправляет алерт всем подключенным клиентам
+    
+    Args:
+        alert: {level, title, message, metric, threshold, current_value}
+    """
+    payload = {
+        'type': 'alert',
+        'timestamp': datetime.now().isoformat(),
+        **alert
+    }
+    
+    socketio.emit('alert', payload, broadcast=True)
+
+
+@socketio.on('join_analytics')
+def handle_join_analytics():
+    """Клиент присоединяется к аналитике"""
+    join_room('analytics')
+    emit('joined', {'room': 'analytics', 'message': 'Подключено к аналитике real-time'})
+
+
 # ========== Integration with TaskExecutor ==========
 
 class WebSocketLogger:
