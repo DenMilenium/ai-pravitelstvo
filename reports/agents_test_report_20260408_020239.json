@@ -1,0 +1,1460 @@
+{
+  "test_date": "2026-04-08T02:02:39.240892",
+  "duration_seconds": 0.0,
+  "summary": {
+    "total_agents": 106,
+    "successful": 106,
+    "failed": 0,
+    "success_rate": 100.0
+  },
+  "performance": {
+    "avg_execution_time_ms": 0.0,
+    "median_execution_time_ms": 0.0,
+    "min_time_ms": 0.0,
+    "max_time_ms": 0.02,
+    "avg_artifacts_per_agent": 1.37,
+    "total_artifacts_generated": 145
+  },
+  "top_performers": {
+    "fastest": [
+      {
+        "name": "devops",
+        "emoji": "🤖",
+        "time_ms": 0.0
+      },
+      {
+        "name": "content",
+        "emoji": "🤖",
+        "time_ms": 0.0
+      },
+      {
+        "name": "React Agent",
+        "emoji": "⚛️",
+        "time_ms": 0.0
+      },
+      {
+        "name": "Django Agent",
+        "emoji": "🐍",
+        "time_ms": 0.0
+      },
+      {
+        "name": "Electron Agent",
+        "emoji": "🪟",
+        "time_ms": 0.0
+      }
+    ],
+    "slowest": [
+      {
+        "name": "Webhook Agent",
+        "emoji": "🎣",
+        "time_ms": 0.0
+      },
+      {
+        "name": "frontend",
+        "emoji": "🤖",
+        "time_ms": 0.01
+      },
+      {
+        "name": "FastAPI Agent",
+        "emoji": "🔥",
+        "time_ms": 0.01
+      },
+      {
+        "name": "Node.js Agent",
+        "emoji": "🟢",
+        "time_ms": 0.01
+      },
+      {
+        "name": "ESLint Agent",
+        "emoji": "🔍",
+        "time_ms": 0.02
+      }
+    ],
+    "most_productive": [
+      {
+        "name": "devops",
+        "emoji": "🤖",
+        "artifacts": 5
+      },
+      {
+        "name": "content",
+        "emoji": "🤖",
+        "artifacts": 3
+      },
+      {
+        "name": "React Agent",
+        "emoji": "⚛️",
+        "artifacts": 3
+      },
+      {
+        "name": "Django Agent",
+        "emoji": "🐍",
+        "artifacts": 3
+      },
+      {
+        "name": "Electron Agent",
+        "emoji": "🪟",
+        "artifacts": 3
+      }
+    ]
+  },
+  "category_stats": [
+    {
+      "category": "Other",
+      "agents_count": 45,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 59
+    },
+    {
+      "category": "Frontend",
+      "agents_count": 19,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 27
+    },
+    {
+      "category": "Cloud",
+      "agents_count": 13,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 16
+    },
+    {
+      "category": "Backend",
+      "agents_count": 9,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 19
+    },
+    {
+      "category": "Database",
+      "agents_count": 7,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 8
+    },
+    {
+      "category": "Testing",
+      "agents_count": 5,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 6
+    },
+    {
+      "category": "Mobile",
+      "agents_count": 4,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 6
+    },
+    {
+      "category": "Monitoring",
+      "agents_count": 4,
+      "avg_time_ms": 0.0,
+      "total_artifacts": 4
+    }
+  ],
+  "failed_agents": [],
+  "detailed_results": [
+    {
+      "agent_type": "frontend",
+      "agent_name": "frontend",
+      "emoji": "🤖",
+      "success": true,
+      "execution_time_ms": 0.01,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "html"
+      ]
+    },
+    {
+      "agent_type": "devops",
+      "agent_name": "devops",
+      "emoji": "🤖",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 5,
+      "error_message": null,
+      "artifact_types": [
+        "conf",
+        "unknown",
+        "md",
+        "yml"
+      ]
+    },
+    {
+      "agent_type": "content",
+      "agent_name": "content",
+      "emoji": "🤖",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 3,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "unknown"
+      ]
+    },
+    {
+      "agent_type": "react",
+      "agent_name": "React Agent",
+      "emoji": "⚛️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 3,
+      "error_message": null,
+      "artifact_types": [
+        "css",
+        "js",
+        "json"
+      ]
+    },
+    {
+      "agent_type": "django",
+      "agent_name": "Django Agent",
+      "emoji": "🐍",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 3,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "py"
+      ]
+    },
+    {
+      "agent_type": "electron",
+      "agent_name": "Electron Agent",
+      "emoji": "🪟",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 3,
+      "error_message": null,
+      "artifact_types": [
+        "js",
+        "json",
+        "html"
+      ]
+    },
+    {
+      "agent_type": "vue",
+      "agent_name": "Vue Agent",
+      "emoji": "⚡",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "vue",
+        "js"
+      ]
+    },
+    {
+      "agent_type": "fastapi",
+      "agent_name": "FastAPI Agent",
+      "emoji": "🔥",
+      "success": true,
+      "execution_time_ms": 0.01,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "txt",
+        "py"
+      ]
+    },
+    {
+      "agent_type": "nodejs",
+      "agent_name": "Node.js Agent",
+      "emoji": "🟢",
+      "success": true,
+      "execution_time_ms": 0.01,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "js",
+        "json"
+      ]
+    },
+    {
+      "agent_type": "go",
+      "agent_name": "Go Agent",
+      "emoji": "🐹",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "go",
+        "mod"
+      ]
+    },
+    {
+      "agent_type": "angular",
+      "agent_name": "Angular Agent",
+      "emoji": "🅰️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "json",
+        "ts"
+      ]
+    },
+    {
+      "agent_type": "svelte",
+      "agent_name": "Svelte Agent",
+      "emoji": "🟥",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "json",
+        "svelte"
+      ]
+    },
+    {
+      "agent_type": "nextjs",
+      "agent_name": "Next.js Agent",
+      "emoji": "▲",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "tsx",
+        "json"
+      ]
+    },
+    {
+      "agent_type": "laravel",
+      "agent_name": "Laravel Agent",
+      "emoji": "🐘",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "json",
+        "php"
+      ]
+    },
+    {
+      "agent_type": "ruby",
+      "agent_name": "Ruby Agent",
+      "emoji": "💎",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "rb",
+        "unknown"
+      ]
+    },
+    {
+      "agent_type": "database",
+      "agent_name": "Database Agent",
+      "emoji": "🗄️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "sql"
+      ]
+    },
+    {
+      "agent_type": "docker",
+      "agent_name": "Docker Agent",
+      "emoji": "🐳",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "unknown",
+        "dockerignore"
+      ]
+    },
+    {
+      "agent_type": "kubernetes",
+      "agent_name": "Kubernetes Agent",
+      "emoji": "☸️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "yaml"
+      ]
+    },
+    {
+      "agent_type": "terraform",
+      "agent_name": "Terraform Agent",
+      "emoji": "🏗️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "tf"
+      ]
+    },
+    {
+      "agent_type": "testing",
+      "agent_name": "Testing Agent",
+      "emoji": "🧪",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "js"
+      ]
+    },
+    {
+      "agent_type": "documentation",
+      "agent_name": "Documentation Agent",
+      "emoji": "📚",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md"
+      ]
+    },
+    {
+      "agent_type": "security",
+      "agent_name": "Security Agent",
+      "emoji": "🔒",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md"
+      ]
+    },
+    {
+      "agent_type": "flutter",
+      "agent_name": "Flutter Agent",
+      "emoji": "📱",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "dart",
+        "yaml"
+      ]
+    },
+    {
+      "agent_type": "ios",
+      "agent_name": "iOS Agent",
+      "emoji": "🍎",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "swift"
+      ]
+    },
+    {
+      "agent_type": "android",
+      "agent_name": "Android Agent",
+      "emoji": "🤖",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "kt"
+      ]
+    },
+    {
+      "agent_type": "rust",
+      "agent_name": "Rust Agent",
+      "emoji": "🦀",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "toml",
+        "rs"
+      ]
+    },
+    {
+      "agent_type": "java",
+      "agent_name": "Java Agent",
+      "emoji": "☕",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "xml",
+        "java"
+      ]
+    },
+    {
+      "agent_type": "csharp",
+      "agent_name": "C# Agent",
+      "emoji": "#️⃣",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "cs",
+        "csproj"
+      ]
+    },
+    {
+      "agent_type": "graphql",
+      "agent_name": "GraphQL Agent",
+      "emoji": "🌐",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "md",
+        "graphql"
+      ]
+    },
+    {
+      "agent_type": "analytics",
+      "agent_name": "Analytics Agent",
+      "emoji": "📊",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "seo",
+      "agent_name": "SEO Agent",
+      "emoji": "🔍",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "md"
+      ]
+    },
+    {
+      "agent_type": "pwa",
+      "agent_name": "PWA Agent",
+      "emoji": "📱",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "js",
+        "json"
+      ]
+    },
+    {
+      "agent_type": "gamedev",
+      "agent_name": "GameDev Agent",
+      "emoji": "🎮",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "js",
+        "html"
+      ]
+    },
+    {
+      "agent_type": "ai",
+      "agent_name": "AI/ML Agent",
+      "emoji": "🧠",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "txt",
+        "py"
+      ]
+    },
+    {
+      "agent_type": "notifications",
+      "agent_name": "Notification Agent",
+      "emoji": "🔔",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "chatbot",
+      "agent_name": "Chatbot Agent",
+      "emoji": "💬",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "email",
+      "agent_name": "Email Agent",
+      "emoji": "📧",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "py"
+      ]
+    },
+    {
+      "agent_type": "aws",
+      "agent_name": "AWS Agent",
+      "emoji": "☁️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "tf"
+      ]
+    },
+    {
+      "agent_type": "azure",
+      "agent_name": "Azure Agent",
+      "emoji": "🔷",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "tf"
+      ]
+    },
+    {
+      "agent_type": "gcp",
+      "agent_name": "GCP Agent",
+      "emoji": "🔵",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "tf"
+      ]
+    },
+    {
+      "agent_type": "github-actions",
+      "agent_name": "GitHub Actions Agent",
+      "emoji": "🔄",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "yml"
+      ]
+    },
+    {
+      "agent_type": "gitlab-ci",
+      "agent_name": "GitLab CI Agent",
+      "emoji": "🦊",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "yml"
+      ]
+    },
+    {
+      "agent_type": "jenkins",
+      "agent_name": "Jenkins Agent",
+      "emoji": "🏗️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "unknown"
+      ]
+    },
+    {
+      "agent_type": "redis",
+      "agent_name": "Redis Agent",
+      "emoji": "🔴",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "conf"
+      ]
+    },
+    {
+      "agent_type": "mongodb",
+      "agent_name": "MongoDB Agent",
+      "emoji": "🍃",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "postgres",
+      "agent_name": "PostgreSQL Agent",
+      "emoji": "🐘",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "sql"
+      ]
+    },
+    {
+      "agent_type": "prometheus",
+      "agent_name": "Prometheus Agent",
+      "emoji": "📈",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "yml"
+      ]
+    },
+    {
+      "agent_type": "grafana",
+      "agent_name": "Grafana Agent",
+      "emoji": "📊",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "nginx",
+      "agent_name": "Nginx Agent",
+      "emoji": "🌐",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "conf"
+      ]
+    },
+    {
+      "agent_type": "apache",
+      "agent_name": "Apache Agent",
+      "emoji": "🪶",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "conf"
+      ]
+    },
+    {
+      "agent_type": "rabbitmq",
+      "agent_name": "RabbitMQ Agent",
+      "emoji": "🐇",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "kafka",
+      "agent_name": "Kafka Agent",
+      "emoji": "📨",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "properties"
+      ]
+    },
+    {
+      "agent_type": "elasticsearch",
+      "agent_name": "Elasticsearch Agent",
+      "emoji": "🔍",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "cdn",
+      "agent_name": "CDN Agent",
+      "emoji": "🌎",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "unknown"
+      ]
+    },
+    {
+      "agent_type": "ssl",
+      "agent_name": "SSL Agent",
+      "emoji": "🔐",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "conf"
+      ]
+    },
+    {
+      "agent_type": "wordpress",
+      "agent_name": "WordPress Agent",
+      "emoji": "📝",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "css",
+        "php"
+      ]
+    },
+    {
+      "agent_type": "shopify",
+      "agent_name": "Shopify Agent",
+      "emoji": "🛍️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "liquid"
+      ]
+    },
+    {
+      "agent_type": "gatsby",
+      "agent_name": "Gatsby Agent",
+      "emoji": "⚡",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "hugo",
+      "agent_name": "Hugo Agent",
+      "emoji": "🤗",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "toml"
+      ]
+    },
+    {
+      "agent_type": "jekyll",
+      "agent_name": "Jekyll Agent",
+      "emoji": "💎",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "yml"
+      ]
+    },
+    {
+      "agent_type": "preact",
+      "agent_name": "Preact Agent",
+      "emoji": "⚛️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "alpine",
+      "agent_name": "Alpine.js Agent",
+      "emoji": "🏔️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "html"
+      ]
+    },
+    {
+      "agent_type": "lit",
+      "agent_name": "Lit Agent",
+      "emoji": "🔥",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "stimulus",
+      "agent_name": "Stimulus Agent",
+      "emoji": "🎮",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "solid",
+      "agent_name": "Solid.js Agent",
+      "emoji": "💠",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "jsx"
+      ]
+    },
+    {
+      "agent_type": "qwik",
+      "agent_name": "Qwik Agent",
+      "emoji": "⚡",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "tsx"
+      ]
+    },
+    {
+      "agent_type": "astro",
+      "agent_name": "Astro Agent",
+      "emoji": "🚀",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "astro"
+      ]
+    },
+    {
+      "agent_type": "nuxt",
+      "agent_name": "Nuxt Agent",
+      "emoji": "⛰️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 2,
+      "error_message": null,
+      "artifact_types": [
+        "vue",
+        "ts"
+      ]
+    },
+    {
+      "agent_type": "remix",
+      "agent_name": "Remix Agent",
+      "emoji": "🎸",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "tsx"
+      ]
+    },
+    {
+      "agent_type": "bash",
+      "agent_name": "Bash Agent",
+      "emoji": "🐚",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "sh"
+      ]
+    },
+    {
+      "agent_type": "powershell",
+      "agent_name": "PowerShell Agent",
+      "emoji": "💻",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "ps1"
+      ]
+    },
+    {
+      "agent_type": "makefile",
+      "agent_name": "Makefile Agent",
+      "emoji": "🛠️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "unknown"
+      ]
+    },
+    {
+      "agent_type": "swagger",
+      "agent_name": "Swagger Agent",
+      "emoji": "📋",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "yaml"
+      ]
+    },
+    {
+      "agent_type": "postman",
+      "agent_name": "Postman Agent",
+      "emoji": "📮",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "tsconfig",
+      "agent_name": "TSConfig Agent",
+      "emoji": "🔷",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "eslint",
+      "agent_name": "ESLint Agent",
+      "emoji": "🔍",
+      "success": true,
+      "execution_time_ms": 0.02,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "prettier",
+      "agent_name": "Prettier Agent",
+      "emoji": "✨",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "prettierrc"
+      ]
+    },
+    {
+      "agent_type": "webpack",
+      "agent_name": "Webpack Agent",
+      "emoji": "📦",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "vite",
+      "agent_name": "Vite Config Agent",
+      "emoji": "⚡",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "rollup",
+      "agent_name": "Rollup Agent",
+      "emoji": "📦",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "parcel",
+      "agent_name": "Parcel Agent",
+      "emoji": "📦",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "parcelrc"
+      ]
+    },
+    {
+      "agent_type": "jest",
+      "agent_name": "Jest Config Agent",
+      "emoji": "🧪",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "cypress",
+      "agent_name": "Cypress Agent",
+      "emoji": "🌲",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "playwright",
+      "agent_name": "Playwright Agent",
+      "emoji": "🎭",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "storybook",
+      "agent_name": "Storybook Agent",
+      "emoji": "📖",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "chromatic",
+      "agent_name": "Chromatic Agent",
+      "emoji": "🎨",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "sentry",
+      "agent_name": "Sentry Agent",
+      "emoji": "🐛",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "logrocket",
+      "agent_name": "LogRocket Agent",
+      "emoji": "🚀",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "backup",
+      "agent_name": "Backup Agent",
+      "emoji": "💾",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "sh"
+      ]
+    },
+    {
+      "agent_type": "migration",
+      "agent_name": "Migration Agent",
+      "emoji": "🚚",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "sql"
+      ]
+    },
+    {
+      "agent_type": "localization",
+      "agent_name": "Localization Agent",
+      "emoji": "🌍",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "accessibility",
+      "agent_name": "Accessibility Agent",
+      "emoji": "♿",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "md"
+      ]
+    },
+    {
+      "agent_type": "performance",
+      "agent_name": "Performance Agent",
+      "emoji": "⚡",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "md"
+      ]
+    },
+    {
+      "agent_type": "web3",
+      "agent_name": "Web3 Agent",
+      "emoji": "⛓️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "sol"
+      ]
+    },
+    {
+      "agent_type": "iot",
+      "agent_name": "IoT Agent",
+      "emoji": "📡",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "ino"
+      ]
+    },
+    {
+      "agent_type": "arvr",
+      "agent_name": "AR/VR Agent",
+      "emoji": "🥽",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "html"
+      ]
+    },
+    {
+      "agent_type": "voice",
+      "agent_name": "Voice Agent",
+      "emoji": "🎤",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "json"
+      ]
+    },
+    {
+      "agent_type": "pdf",
+      "agent_name": "PDF Agent",
+      "emoji": "📄",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "spreadsheet",
+      "agent_name": "Spreadsheet Agent",
+      "emoji": "📊",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "qrcode",
+      "agent_name": "QR Code Agent",
+      "emoji": "🔲",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "image-processing",
+      "agent_name": "Image Processing Agent",
+      "emoji": "🖼️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "video",
+      "agent_name": "Video Agent",
+      "emoji": "🎬",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "sh"
+      ]
+    },
+    {
+      "agent_type": "audio",
+      "agent_name": "Audio Agent",
+      "emoji": "🎵",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    },
+    {
+      "agent_type": "scraping",
+      "agent_name": "Web Scraping Agent",
+      "emoji": "🕷️",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "py"
+      ]
+    },
+    {
+      "agent_type": "cron",
+      "agent_name": "Cron Agent",
+      "emoji": "⏰",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "txt"
+      ]
+    },
+    {
+      "agent_type": "webhook",
+      "agent_name": "Webhook Agent",
+      "emoji": "🎣",
+      "success": true,
+      "execution_time_ms": 0.0,
+      "artifacts_count": 1,
+      "error_message": null,
+      "artifact_types": [
+        "js"
+      ]
+    }
+  ]
+}
