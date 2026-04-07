@@ -1,4 +1,96 @@
 """
+Go Agent - Go/Gin разработка
+"""
+from orchestrator.core.task_executor import BaseAgentExecutor
+from orchestrator.core.database import Task
+from typing import Dict
+
+class GoAgentExecutor(BaseAgentExecutor):
+    AGENT_TYPE = 'go'
+    NAME = 'Go Agent'
+    EMOJI = '🐹'
+    
+    def can_execute(self, task: Task) -> bool:
+        return task.agent_type in ['go', 'golang', 'backend']
+    
+    def execute(self, task: Task) -> Dict:
+        main_go = '''package main
+
+import (
+	"net/http"
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	r := gin.Default()
+	
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "🐹 Hello from Go!"})
+	})
+	
+	r.GET("/api/status", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok", "version": "1.0.0"})
+	})
+	
+	r.Run(":8080")
+}
+'''
+        return {
+            'success': True,
+            'message': '✅ Go приложение создано!',
+            'artifacts': {
+                'main.go': main_go,
+                'go.mod': 'module app\n\ngo 1.21\n\nrequire github.com/gin-gonic/gin v1.9.1'
+            }
+        }
+
+
+"""
+Angular Agent
+"""
+from orchestrator.core.task_executor import BaseAgentExecutor
+from orchestrator.core.database import Task
+from typing import Dict
+
+class AngularAgentExecutor(BaseAgentExecutor):
+    AGENT_TYPE = 'angular'
+    NAME = 'Angular Agent'
+    EMOJI = '🅰️'
+    
+    def can_execute(self, task: Task) -> bool:
+        return task.agent_type in ['angular', 'frontend']
+    
+    def execute(self, task: Task) -> Dict:
+        component_ts = '''import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div class="container">
+      <h1>🅰️ {{ title }}</h1>
+      <p>Welcome to Angular!</p>
+    </div>
+  `,
+  styles: [`
+    .container { text-align: center; padding: 20px; }
+    h1 { color: #dd0031; }
+  `]
+})
+export class AppComponent {
+  title = 'Angular App';
+}
+'''
+        return {
+            'success': True,
+            'message': '✅ Angular приложение создано!',
+            'artifacts': {
+                'app.component.ts': component_ts,
+                'package.json': '{"dependencies":{"@angular/core":"^17.0"}}'
+            }
+        }
+
+
+"""
 🟥 Svelte Agent
 """
 from orchestrator.core.task_executor import BaseAgentExecutor
