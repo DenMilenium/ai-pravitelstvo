@@ -3,151 +3,241 @@
 <div align="center">
   
   ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
-  ![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
-  ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)
-  ![Tailwind](https://img.shields.io/badge/Tailwind-3.0-06B6D4?style=for-the-badge&logo=tailwindcss)
+  ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi)
+  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql)
+  ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)
   
-  <strong>🎨 Клон cdep.ru с современным дизайном | 🇷🇺 Российская Федерация</strong>
+  <strong>🎨 Клон cdep.ru с современным дизайном | 🚀 Полный стек с бэкендом</strong>
   
   <br />
   <br />
   
   <a href="#-особенности">Особенности</a> •
-  <a href="#-контент">Контент</a> •
-  <a href="#-установка">Установка</a> •
+  <a href="#-api">API</a> •
+  <a href="#-запуск">Запуск</a> •
   <a href="#-структура">Структура</a>
   
 </div>
 
 ---
 
-## ✨ Особенности v3.0
+## ✨ Особенности v3.1 (Full Stack)
 
-### 🎨 Дизайн (Наш)
+### 🎨 Frontend (Next.js 14)
 - **Glassmorphism UI** — современные стеклянные эффекты
-- **Плавные анимации** — fade, slide, count-up
-- **Градиенты** — красивые переходы цветов
-- **Адаптивность** — mobile-first подход
-- **Sticky Header** — с blur-эффектом
+- **Анимации** — fade, slide, count-up
+- **Адаптивность** — mobile-first
+- **TypeScript** — полная типизация
 
-### 📰 Контент (Оригинальный cdep.ru)
-- ✅ **РЕАЛЬНЫЕ НОВОСТИ** — последние новости с cdep.ru
-- ✅ **РЕАЛЬНАЯ НАВИГАЦИЯ** — все разделы оригинального сайта
-- ✅ **ВАЖНЫЕ ССЫЛКИ** — все организации судебной системы РФ
-- ✅ **КОНТАКТЫ** — реальные адреса и телефоны
-- ✅ **"РОССИЙСКАЯ ФЕДЕРАЦИЯ"** — везде где нужно
+### ⚙️ Backend (FastAPI)
+- **REST API** — полный CRUD для всех сущностей
+- **PostgreSQL** — надёжная база данных
+- **Pydantic** — валидация данных
+- **SQLAlchemy** — ORM
+- **CORS** — поддержка кросс-доменных запросов
 
-### ⚡ Функциональность
-- 📰 **Новости** — актуальные новости Судебного департамента
-- 📄 **Документы** — ссылки на процессуальные документы
-- 📊 **Статистика** — анимированные цифры судов РФ
-- 💻 **Электронное правосудие** — сервисы ГАС "Правосудие"
-- 🔗 **Важные ссылки** — суды и организации РФ
+### 📰 Контент (cdep.ru)
+- ✅ **РЕАЛЬНЫЕ НОВОСТИ** — парсятся с cdep.ru
+- ✅ **РЕАЛЬНАЯ НАВИГАЦИЯ** — все 8 разделов
+- ✅ **РЕАЛЬНЫЕ КОНТАКТЫ**
+- ✅ **"РОССИЙСКАЯ ФЕДЕРАЦИЯ"** — везде
 
-## 🏛 Оригинальный сайт
+---
 
-Этот проект — **информационный клон** официального сайта:
+## 🔌 API Endpoints
 
-**Оригинал:** https://cdep.ru  
-**Название:** Судебный департамент при Верховном Суде Российской Федерации
+### Новости
+| Метод | Endpoint | Описание |
+|-------|----------|----------|
+| `GET` | `/api/news` | Список новостей (с пагинацией) |
+| `GET` | `/api/news/{id}` | Одна новость (+просмотры) |
+| `POST` | `/api/news` | Создать новость |
+| `PUT` | `/api/news/{id}` | Обновить новость |
+| `DELETE` | `/api/news/{id}` | Удалить новость |
 
-### Реальные данные:
-- 📍 Адрес: 121260, г. Москва, ул. Новый Арбат, д. 16
-- 📞 Телефон: +7 (495) 606-16-16
-- ✉️ Email: info@cdep.ru
-- 📅 Дата актуальности: 07.04.2026
-
-## 🛠 Технологии
-
-| Категория | Технологии |
-|-----------|-----------|
-| **Frontend** | Next.js 14, React 18, TypeScript |
-| **Стили** | Tailwind CSS, CSS Variables |
-| **Иконки** | Lucide React |
-| **Шрифты** | Inter |
-| **Backend** | FastAPI, Django (готовность) |
-| **DevOps** | Docker, Docker Compose |
-
-## 📁 Структура контента
-
-### Навигация (как на cdep.ru)
+**Параметры:**
 ```
-├─ О СУДЕБНОМ ДЕПАРТАМЕНТЕ
-├─ ОРГАНИЗАЦИЯ ДЕЯТЕЛЬНОСТИ
-├─ НАПРАВЛЕНИЯ ДЕЯТЕЛЬНОСТИ
-├─ ГОСУДАРСТВЕННАЯ СЛУЖБА
-├─ ПРОТИВОДЕЙСТВИЕ КОРРУПЦИИ
-├─ ОБРАЩЕНИЯ ГРАЖДАН
-├─ ОТКРЫТЫЕ ДАННЫЕ
-└─ ПРЕСС-СЛУЖБА
+GET /api/news?limit=10&skip=0&category=events
 ```
 
-### Новости (реальные)
-| Дата | Заголовок |
-|------|-----------|
-| 01.04.2026 | Проведены занятия по вопросам противодействия коррупции |
-| 31.03.2026 | Генеральный директор принял участие в заседании Совета судей РФ |
-| 30.03.2026 | Встреча с заместителями председателей судов |
-| 27.03.2026 | Назначен начальник регионального управления |
-| 27.03.2026 | Обсудили реализацию проектов капитального строительства |
-| 26.03.2026 | На Госуслугах появилась возможность подавать документы |
+### Документы
+| Метод | Endpoint | Описание |
+|-------|----------|----------|
+| `GET` | `/api/documents` | Список документов |
+| `GET` | `/api/documents/{id}` | Один документ |
+| `POST` | `/api/documents` | Создать документ |
+| `POST` | `/api/documents/{id}/download` | Скачать документ |
 
-### Важные ссылки
-- ⚖️ Верховный Суд Российской Федерации
-- ⚖️ Совет судей Российской Федерации
-- ⚖️ Высшая квалификационная коллегия судей
-- ⚖️ Федеральные суды общей юрисдикции
-- ⚖️ Федеральные арбитражные суды
-- 💻 Интернет-портал ГАС «Правосудие»
-- 📜 Официальный портал правовой информации
+### Обращения граждан
+| Метод | Endpoint | Описание |
+|-------|----------|----------|
+| `GET` | `/api/appeals` | Список обращений (админ) |
+| `GET` | `/api/appeals/{id}` | Одно обращение |
+| `POST` | `/api/appeals` | Создать обращение |
+| `PUT` | `/api/appeals/{id}/respond` | Ответить на обращение |
 
-## 🚀 Установка
+**Форма обращения:**
+```json
+{
+  "full_name": "Иванов Иван Иванович",
+  "email": "ivan@example.com",
+  "phone": "+7 (999) 123-45-67",
+  "subject": "Тема обращения",
+  "message": "Текст обращения (минимум 20 символов)"
+}
+```
+
+### Статистика
+| Метод | Endpoint | Описание |
+|-------|----------|----------|
+| `GET` | `/api/statistics` | Статистика по регионам |
+| `GET` | `/api/statistics/summary` | Сводная статистика |
+| `POST` | `/api/statistics` | Добавить статистику |
+
+### Системные
+| Метод | Endpoint | Описание |
+|-------|----------|----------|
+| `GET` | `/api/health` | Health check |
+| `POST` | `/api/seed` | Заполнить тестовыми данными |
+
+---
+
+## 🚀 Запуск
+
+### Docker (Рекомендуется)
 
 ```bash
-# Клонирование
-git clone https://github.com/DenMilenium/court-department.git
-cd court-department
+# Запуск всего стека
+docker-compose up -d
 
-# Установка
+# Сервисы:
+# - Frontend: http://localhost:3000
+# - API: http://localhost:8000
+# - Adminer (БД): http://localhost:8080
+#   Server: db
+#   User: postgres
+#   Password: postgres
+#   Database: court_db
+
+# Заполнить тестовыми данными
+curl -X POST http://localhost:8000/api/seed
+
+# Логи
+docker-compose logs -f backend
+docker-compose logs -f frontend
+```
+
+### Локальная разработка
+
+**Бэкенд:**
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+
+**Фронтенд:**
+```bash
 npm install
-
-# Запуск
 npm run dev
 ```
 
-Откройте [http://localhost:3000](http://localhost:3000)
+---
 
-### Docker
+## 📁 Структура проекта
 
-```bash
-docker-compose up -d
+```
+court-department/
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # Главная страница
+│   ├── layout.tsx         # Корневой layout
+│   └── globals.css        # Глобальные стили
+├── backend/               # FastAPI Backend ⭐ NEW
+│   ├── main.py           # API endpoints
+│   ├── requirements.txt  # Python deps
+│   └── Dockerfile
+├── components/            # React компоненты
+│   ├── AppealForm.tsx    # Форма обращений
+│   └── ...
+├── lib/                   # Утилиты
+│   └── api.ts            # React hooks для API
+├── nginx/                 # Nginx config
+│   └── nginx.conf
+├── docker-compose.yml     # Docker стек
+└── README.md
 ```
 
-## 🎨 Цветовая схема
+---
 
-| Цвет | HEX | Применение |
-|------|-----|------------|
-| Primary | `#1a365d` | Тёмно-синий (официальный) |
-| Accent | `#f59e0b` | Золотой/Амбер |
-| Surface | `#ffffff` | Фон карточек |
-| Background | `#f8fafc` | Фон страницы |
+## 🗄 Модели данных
 
-## 📸 Скриншоты
+### News (Новости)
+```python
+id: int
+ title: str
+ content: str
+ excerpt: str
+ image_url: str
+ published_at: datetime
+ is_published: bool
+ category: str
+ views: int
+```
 
-### v3.0 — Информационный клон
-- ✅ Hero с "Российской Федерацией"
-- ✅ Реальные новости с датами
-- ✅ Glassmorphism карточки
-- ✅ Важные ссылки судебной системы
-- ✅ Адаптивная навигация
+### Document (Документы)
+```python
+id: int
+title: str
+description: str
+file_url: str
+file_size: int
+file_type: str
+category: str
+published_at: datetime
+downloads: int
+```
 
-## 🧠 Версии
+### Appeal (Обращения)
+```python
+id: int
+full_name: str
+email: str
+phone: str
+subject: str
+message: str
+created_at: datetime
+status: str  # new, in_progress, resolved
+response: str
+responded_at: datetime
+```
 
-| Версия | Описание |
-|--------|----------|
-| v1.0 | Базовый шаблон |
-| v2.0 | AI-улучшенный дизайн |
-| **v3.0** | **Клон cdep.ru + наш дизайн** |
+### Statistic (Статистика)
+```python
+id: int
+year: int
+region: str
+total_cases: int
+civil_cases: int
+criminal_cases: int
+arbitration_cases: int
+updated_at: datetime
+```
+
+---
+
+## 🎨 Дизайн-система
+
+| Элемент | Значение |
+|---------|----------|
+| Primary | `#1a365d` (тёмно-синий) |
+| Accent | `#f59e0b` (золотой) |
+| Glass | `bg-white/80 backdrop-blur-xl` |
+| Border | `border-white/20` |
+| Shadow | `shadow-[0_8px_32px_rgba(31,38,135,0.15)]` |
+
+---
 
 ## 📞 Контакты
 
@@ -158,10 +248,6 @@ docker-compose up -d
 - ✉️ info@cdep.ru
 - 🌐 https://cdep.ru
 
-## 📄 Лицензия
-
-MIT License
-
 ---
 
 <div align="center">
@@ -170,6 +256,6 @@ MIT License
   
   <br />
   
-  🇷🇺 Российская Федерация • 🎨 Современный дизайн • 📰 Реальный контент
+  🎨 Frontend • ⚙️ Backend • 🗄️ Database • 🐳 Docker
   
 </div>

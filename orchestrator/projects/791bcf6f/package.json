@@ -1,7 +1,7 @@
 {
   "name": "court-department",
-  "version": "1.0.0",
-  "description": "Судебный департамент при Верховном суде РФ",
+  "version": "3.1.0",
+  "description": "Судебный департамент при Верховном суде РФ - Полная версия с бэкендом",
   "private": true,
   "scripts": {
     "dev": "next dev",

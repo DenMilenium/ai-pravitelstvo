@@ -14,6 +14,8 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+    networks:
+      - court-network
 
   # Backend FastAPI
   backend:
@@ -24,25 +26,15 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/court_db
-      - SECRET_KEY=your-secret-key-here
-    depends_on:
-      - db
-      - redis
-    restart: unless-stopped
-
-  # Django CMS
-  cms:
-    build:
-      context: ./cms
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/court_cms
-      - SECRET_KEY=your-cms-secret-key
+      - SECRET_KEY=your-secret-key-change-in-production
     depends_on:
       - db
     restart: unless-stopped
+    networks:
+      - court-network
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
 
   # PostgreSQL Database
   db:
@@ -54,26 +46,41 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - court-network
+    ports:
+      - "5432:5432"
 
-  # Redis Cache
-  redis:
-    image: redis:7-alpine
+  # Adminer (Database GUI)
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
     restart: unless-stopped
+    networks:
+      - court-network
 
-  # Nginx Reverse Proxy
+  # Nginx Reverse Proxy (optional)
   nginx:
     image: nginx:alpine
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
     depends_on:
       - frontend
       - backend
-      - cms
     restart: unless-stopped
+    networks:
+      - court-network
+    profiles:
+      - production
 
 volumes:
   postgres_data:
+
+networks:
+  court-network:
+    driver: bridge
