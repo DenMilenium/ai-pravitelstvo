@@ -14,7 +14,8 @@ from datetime import datetime
 from pathlib import Path
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+# Статический secret_key (или из переменной окружения) - важно для сохранения сессий!
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'ai-pravitelstvo-secret-key-2024-fixed')
 CORS(app)
 
 # Подключаем Orchestrator API
