@@ -82,7 +82,12 @@ class Project:
 class Database:
     """База данных оркестратора"""
     
-    def __init__(self, db_path: str = "orchestrator/orchestrator.db"):
+    def __init__(self, db_path: str = None):
+        # Абсолютный путь к базе данных
+        if db_path is None:
+            import os
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            db_path = os.path.join(base_dir, 'orchestrator', 'orchestrator.db')
         self.db_path = db_path
         self.init_db()
     
