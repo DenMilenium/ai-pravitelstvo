@@ -175,10 +175,12 @@ def project_detail(project_id):
         return "Проект не найден", 404
     
     tasks = db.get_tasks_by_project(project_id)
+    # Конвертируем задачи в словари для корректного отображения статуса
+    tasks_dict = [task.to_dict() for task in tasks]
     
     return render_template('project_detail.html', 
                          project=project,
-                         tasks=tasks,
+                         tasks=tasks_dict,
                          user={'username': session.get('username')})
 
 @app.route('/profile')
