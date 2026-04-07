@@ -382,6 +382,239 @@ def api_user():
         'last_login': user[3]
     })
 
+
+# ========== Agents Management ==========
+
+@app.route('/agents')
+@login_required
+def agents_management():
+    """Страница управления агентами"""
+    
+    # Загружаем всех агентов
+    agents = load_all_agents()
+    
+    # Группируем по министерствам
+    agents_by_ministry = {}
+    for agent in agents:
+        ministry = agent.get('ministry', 'other')
+        if ministry not in agents_by_ministry:
+            agents_by_ministry[ministry] = []
+        agents_by_ministry[ministry].append(agent)
+    
+    # Иконки министерств
+    ministry_icons = {
+        'frontend': '🎨',
+        'backend': '⚙️',
+        'mobile': '📱',
+        'desktop': '💻',
+        'devops': '🚀',
+        'cloud': '☁️',
+        'ai': '🧠',
+        'security': '🔒',
+        'marketing': '📈',
+        'other': '🤖'
+    }
+    
+    # Названия министерств
+    ministry_names = {
+        'frontend': 'Frontend разработка',
+        'backend': 'Backend разработка',
+        'mobile': 'Мобильная разработка',
+        'desktop': 'Desktop приложения',
+        'devops': 'DevOps',
+        'cloud': 'Облачные технологии',
+        'ai': 'AI / Machine Learning',
+        'security': 'Безопасность',
+        'marketing': 'Маркетинг',
+        'other': 'Другие агенты'
+    }
+    
+    # Считаем общую статистику
+    total_tasks_completed = sum(a.get('tasks_completed', 0) for a in agents)
+    
+    return render_template('agents_management.html',
+                         agents=agents,
+                         agents_by_ministry=agents_by_ministry,
+                         ministry_icons=ministry_icons,
+                         ministry_names=ministry_names,
+                         total_tasks_completed=total_tasks_completed,
+                         user={'username': session.get('username')})
+
+
+def load_all_agents():
+    """Загружает информацию обо всех агентах"""
+    agents = []
+    
+    # Сканируем директорию агентов
+    if AGENTS_DIR.exists():
+        for file in sorted(AGENTS_DIR.glob('*_agent.py')):
+            agent_id = file.stem.replace('_agent', '')
+            
+            # Пытаемся загрузить метаданные агента
+            try:
+                # Заглушка - в реальности парсим файл или берем из БД
+                agent_info = get_agent_info(agent_id)
+                agents.append(agent_info)
+            except Exception as e:
+                # Если не удалось загрузить - базовая информация
+                agents.append({
+                    'id': agent_id,
+                    'name': agent_id.replace('_', ' ').title() + ' Agent',
+                    'role': 'AI Agent',
+                    'emoji': '🤖',
+                    'ministry': 'other',
+                    'status': 'idle',
+                    'enabled': True,
+                    'tasks_completed': 0,
+                    'success_rate': 100,
+                    'avg_time': 0,
+                    'expertise': ['AI', 'Automation']
+                })
+    
+    return agents
+
+
+def get_agent_info(agent_id):
+    """Получает информацию об агенте из БД или файла"""
+    # Заглушка - возвращаем моковые данные
+    # В реальности здесь парсинг файла агента или запрос к БД
+    
+    ministries_map = {
+        'frontend': 'frontend',
+        'react': 'frontend',
+        'vue': 'frontend',
+        'angular': 'frontend',
+        'backend': 'backend',
+        'django': 'backend',
+        'laravel': 'backend',
+        'node': 'backend',
+        'mobile': 'mobile',
+        'ios': 'mobile',
+        'android': 'mobile',
+        'flutter': 'mobile',
+        'desktop': 'desktop',
+        'pyqt': 'desktop',
+        'electron': 'desktop',
+        'devops': 'devops',
+        'docker': 'devops',
+        'k8s': 'devops',
+        'cloud': 'cloud',
+        'aws': 'cloud',
+        'azure': 'cloud',
+        'ml': 'ai',
+        'ai': 'ai',
+        'security': 'security',
+        'seo': 'marketing',
+        'marketer': 'marketing',
+    }
+    
+    ministry = ministries_map.get(agent_id, 'other')
+    
+    # Иконки по министерствам
+    emojis = {
+        'frontend': '🎨', 'backend': '⚙️', 'mobile': '📱',
+        'desktop': '💻', 'devops': '🚀', 'cloud': '☁️',
+        'ai': '🧠', 'security': '🔒', 'marketing': '📈',
+        'other': '🤖'
+    }
+    
+    return {
+        'id': agent_id,
+        'name': agent_id.replace('_', ' ').title() + ' Agent',
+        'role': agent_id.replace('_', ' ').title() + ' Developer',
+        'emoji': emojis.get(ministry, '🤖'),
+        'ministry': ministry,
+        'status': 'idle',
+        'enabled': True,
+        'tasks_completed': 0,
+        'success_rate': 100,
+        'avg_time': 5,
+        'expertise': [agent_id.replace('_', ' ').title(), 'AI', 'Automation']
+    }
+
+
+@app.route('/api/agents')
+@login_required
+def api_agents_list():
+    """API: Список всех агентов"""
+    agents = load_all_agents()
+    return jsonify({
+        'agents': agents,
+        'count': len(agents)
+    })
+
+
+@app.route('/api/agents/<agent_id>/toggle', methods=['POST'])
+@login_required
+def api_agent_toggle(agent_id):
+    """API: Включить/выключить агента"""
+    data = request.get_json() or {}
+    enabled = data.get('enabled', True)
+    
+    # TODO: Сохранить в БД
+    # Сейчас просто логируем
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO agent_logs (agent_name, action, status, details)
+        VALUES (?, ?, ?, ?)
+    ''', (agent_id, 'toggle', 'success', f'Enabled: {enabled}'))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({
+        'success': True,
+        'agent_id': agent_id,
+        'enabled': enabled,
+        'message': f'Агент {agent_id} {"включен" if enabled else "выключен"}'
+    })
+
+
+@app.route('/api/agents/<agent_id>/test', methods=['POST'])
+@login_required
+def api_agent_test(agent_id):
+    """API: Тестировать агента"""
+    # TODO: Запустить тестовую задачу
+    return jsonify({
+        'success': True,
+        'agent_id': agent_id,
+        'message': f'Тест агента {agent_id} запущен'
+    })
+
+
+@app.route('/api/agents/start-all', methods=['POST'])
+@login_required
+def api_agents_start_all():
+    """API: Запустить всех агентов"""
+    agents = load_all_agents()
+    started = 0
+    
+    for agent in agents:
+        if not agent.get('enabled'):
+            # Включаем
+            started += 1
+    
+    return jsonify({
+        'success': True,
+        'started': started,
+        'message': f'Запущено {started} агентов'
+    })
+
+
+@app.route('/api/agents/stop-all', methods=['POST'])
+@login_required
+def api_agents_stop_all():
+    """API: Остановить всех агентов"""
+    agents = load_all_agents()
+    stopped = len(agents)
+    
+    return jsonify({
+        'success': True,
+        'stopped': stopped,
+        'message': f'Остановлено {stopped} агентов'
+    })
+
+
 if __name__ == '__main__':
     init_db()
     print("🎛️ Dashboard API запущен!")

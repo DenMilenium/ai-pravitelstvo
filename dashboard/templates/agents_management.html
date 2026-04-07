@@ -1,0 +1,761 @@
+<!--
+🤖 Управление агентами - Полный контроль над 80 агентами
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление агентами | AI Правительство</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #e94560;
+            --primary-dark: #d63d56;
+            --secondary: #16213e;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-muted: #6c757d;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a1a2e 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+
+        .stats-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--bg);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 150px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Agents Grid */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .agent-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .agent-card.active {
+            border-color: var(--success);
+        }
+
+        .agent-card.busy {
+            border-color: var(--warning);
+        }
+
+        .agent-card.error {
+            border-color: var(--danger);
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .agent-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .agent-info h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .agent-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .agent-status {
+            margin-left: auto;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-idle {
+            background: #f0fdf4;
+            color: var(--success);
+        }
+
+        .status-busy {
+            background: #fff7ed;
+            color: var(--warning);
+        }
+
+        .status-error {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .status-offline {
+            background: #f3f4f6;
+            color: var(--text-muted);
+        }
+
+        .agent-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 10px;
+        }
+
+        .agent-stat {
+            text-align: center;
+        }
+
+        .agent-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .agent-stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .agent-expertise {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .expertise-tag {
+            padding: 4px 10px;
+            background: #eff6ff;
+            color: var(--info);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .agent-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .agent-actions button {
+            flex: 1;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--success);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        /* Ministry Sections */
+        .ministry-section {
+            margin-bottom: 32px;
+        }
+
+        .ministry-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .ministry-header h2 {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ministry-count {
+            padding: 4px 12px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Logs Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 50vh;
+        }
+
+        .log-entry {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .log-time {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .log-message {
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>
+                <span>🤖</span>
+                Управление агентами
+            </h1>
+            <nav class="nav-links">
+                <a href="/dashboard">📊 Dashboard</a>
+                <a href="/projects">📋 Проекты</a>
+                <a href="/agents">🤖 Агенты</a>
+                <a href="/profile">👤 Профиль</a>
+                <a href="/logout">🚪 Выход</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-content">
+            <div class="stat-card">
+                <div class="stat-value">{{ agents|length }}</div>
+                <div class="stat-label">Всего агентов</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ agents|selectattr('status', 'equalto', 'idle')|list|length }}</div>
+                <div class="stat-label">Готовы к работе</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ agents|selectattr('status', 'equalto', 'busy')|list|length }}</div>
+                <div class="stat-label">В работе</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ agents|selectattr('status', 'equalto', 'error')|list|length }}</div>
+                <div class="stat-label">Ошибки</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ total_tasks_completed }}</div>
+                <div class="stat-label">Выполнено задач</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <label>Министерство:</label>
+                <select id="ministryFilter" onchange="filterAgents()">
+                    <option value="all">Все</option>
+                    <option value="frontend">🎨 Frontend</option>
+                    <option value="backend">⚙️ Backend</option>
+                    <option value="mobile">📱 Mobile</option>
+                    <option value="desktop">💻 Desktop</option>
+                    <option value="devops">🚀 DevOps</option>
+                    <option value="cloud">☁️ Cloud</option>
+                    <option value="ai">🧠 AI/ML</option>
+                    <option value="security">🔒 Security</option>
+                    <option value="marketing">📈 Marketing</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Статус:</label>
+                <select id="statusFilter" onchange="filterAgents()">
+                    <option value="all">Все</option>
+                    <option value="idle">🟢 Готов</option>
+                    <option value="busy">🟡 В работе</option>
+                    <option value="error">🔴 Ошибка</option>
+                    <option value="offline">⚪️ Неактивен</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Поиск:</label>
+                <input type="text" id="searchInput" placeholder="Название или навык..." onkeyup="filterAgents()">
+            </div>
+            <button class="btn btn-primary" onclick="startAllAgents()">
+                ▶️ Запустить всех
+            </button>
+            <button class="btn btn-danger" onclick="stopAllAgents()">
+                ⏹ Остановить всех
+            </button>
+        </div>
+
+        <!-- Agents by Ministry -->
+        {% for ministry, ministry_agents in agents_by_ministry.items() %}
+        <div class="ministry-section" data-ministry="{{ ministry }}">
+            <div class="ministry-header">
+                <h2>
+                    {{ ministry_icons[ministry] }} 
+                    {{ ministry_names[ministry] }}
+                </h2>
+                <span class="ministry-count">{{ ministry_agents|length }} агентов</span>
+            </div>
+            
+            <div class="agents-grid">
+                {% for agent in ministry_agents %}
+                <div class="agent-card {{ agent.status }}" 
+                     data-ministry="{{ ministry }}"
+                     data-status="{{ agent.status }}"
+                     data-name="{{ agent.name }}"
+                     data-expertise="{{ agent.expertise|join(' ') }}">
+                    
+                    <div class="agent-header">
+                        <div class="agent-icon">{{ agent.emoji }}</div>
+                        <div class="agent-info">
+                            <h3>{{ agent.name }}</h3>
+                            <p>{{ agent.role }}</p>
+                        </div>
+                        <span class="agent-status status-{{ agent.status }}">
+                            {{ agent.status }}
+                        </span>
+                    </div>
+
+                    <div class="agent-stats">
+                        <div class="agent-stat">
+                            <div class="agent-stat-value">{{ agent.tasks_completed }}</div>
+                            <div class="agent-stat-label">Задач</div>
+                        </div>
+                        <div class="agent-stat">
+                            <div class="agent-stat-value">{{ agent.success_rate }}%</div>
+                            <div class="agent-stat-label">Успех</div>
+                        </div>
+                        <div class="agent-stat">
+                            <div class="agent-stat-value">{{ agent.avg_time }}м</div>
+                            <div class="agent-stat-label">Время</div>
+                        </div>
+                    </div>
+
+                    <div class="agent-expertise">
+                        {% for skill in agent.expertise[:4] %}
+                        <span class="expertise-tag">{{ skill }}</span>
+                        {% endfor %}
+                        {% if agent.expertise|length > 4 %}
+                        <span class="expertise-tag">+{{ agent.expertise|length - 4 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="agent-actions">
+                        <label class="toggle-switch">
+                            <input type="checkbox" 
+                                   {% if agent.enabled %}checked{% endif %}
+                                   onchange="toggleAgent('{{ agent.id }}', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <button class="btn btn-sm btn-primary" onclick="chatWithAgent('{{ agent.id }}')">
+                            💬 Чат
+                        </button>
+                        <button class="btn btn-sm btn-warning" onclick="showLogs('{{ agent.id }}')">
+                            📋 Логи
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="testAgent('{{ agent.id }}')">
+                            🧪 Тест
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Logs Modal -->
+    <div id="logsModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>📋 Логи агента</h3>
+                <button class="close-btn" onclick="closeLogs()">&times;</button>
+            </div>
+            <div class="modal-body" id="logsContent">
+                <div class="log-entry">
+                    <div class="log-time">2024-01-15 10:30:15</div>
+                    <div class="log-message">Агент инициализирован</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter agents
+        function filterAgents() {
+            const ministry = document.getElementById('ministryFilter').value;
+            const status = document.getElementById('statusFilter').value;
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            document.querySelectorAll('.agent-card').forEach(card => {
+                const cardMinistry = card.dataset.ministry;
+                const cardStatus = card.dataset.status;
+                const cardName = card.dataset.name.toLowerCase();
+                const cardExpertise = card.dataset.expertise.toLowerCase();
+
+                const ministryMatch = ministry === 'all' || cardMinistry === ministry;
+                const statusMatch = status === 'all' || cardStatus === status;
+                const searchMatch = !search || 
+                    cardName.includes(search) || 
+                    cardExpertise.includes(search);
+
+                card.style.display = ministryMatch && statusMatch && searchMatch ? 'block' : 'none';
+            });
+
+            // Hide empty ministry sections
+            document.querySelectorAll('.ministry-section').forEach(section => {
+                const visibleAgents = section.querySelectorAll('.agent-card[style="display: block"], .agent-card:not([style])');
+                section.style.display = visibleAgents.length > 0 ? 'block' : 'none';
+            });
+        }
+
+        // Toggle agent
+        async function toggleAgent(agentId, enabled) {
+            try {
+                const response = await fetch(`/api/agents/${agentId}/toggle`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({enabled})
+                });
+                const result = await response.json();
+                if (result.success) {
+                    showNotification(`Агент ${enabled ? 'включен' : 'выключен'}`);
+                }
+            } catch (error) {
+                showNotification('Ошибка: ' + error.message, 'error');
+            }
+        }
+
+        // Chat with agent
+        function chatWithAgent(agentId) {
+            window.location.href = `/agent/${agentId}`;
+        }
+
+        // Show logs
+        async function showLogs(agentId) {
+            document.getElementById('logsModal').classList.add('active');
+            // TODO: Load real logs
+        }
+
+        function closeLogs() {
+            document.getElementById('logsModal').classList.remove('active');
+        }
+
+        // Test agent
+        async function testAgent(agentId) {
+            try {
+                const response = await fetch(`/api/agents/${agentId}/test`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                showNotification(result.message);
+            } catch (error) {
+                showNotification('Ошибка тестирования', 'error');
+            }
+        }
+
+        // Start all agents
+        async function startAllAgents() {
+            if (!confirm('Запустить всех агентов?')) return;
+            try {
+                const response = await fetch('/api/agents/start-all', {method: 'POST'});
+                const result = await response.json();
+                showNotification(`Запущено ${result.started} агентов`);
+            } catch (error) {
+                showNotification('Ошибка', 'error');
+            }
+        }
+
+        // Stop all agents
+        async function stopAllAgents() {
+            if (!confirm('Остановить всех агентов?')) return;
+            try {
+                const response = await fetch('/api/agents/stop-all', {method: 'POST'});
+                const result = await response.json();
+                showNotification(`Остановлено ${result.stopped} агентов`);
+            } catch (error) {
+                showNotification('Ошибка', 'error');
+            }
+        }
+
+        // Notification
+        function showNotification(message, type = 'success') {
+            // Simple alert for now, can be replaced with toast
+            alert(message);
+        }
+
+        // Auto-refresh status every 30 seconds
+        setInterval(() => {
+            location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>
