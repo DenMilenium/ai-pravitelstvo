@@ -477,3 +477,59 @@ def chat_with_agent(agent_type):
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ========== GitHub Projects v2 ==========
+
+@orchestrator_bp.route('/github/sync-project-v2/<project_id>', methods=['POST'])
+def sync_project_v2(project_id):
+    """
+    Синхронизация проекта с GitHub Projects v2 (GraphQL)
+    Новое поколение Projects с автоматизацией
+    """
+    try:
+        from orchestrator.core.github_projects_v2 import GitHubProjectsV2
+        
+        # Получаем проект и задачи
+        project = db.get_project(project_id)
+        if not project:
+            return jsonify({'error': 'Проект не найден'}), 404
+        
+        tasks = db.get_tasks_by_project(project_id)
+        if not tasks:
+            return jsonify({'error': 'Нет задач для синхронизации'}), 400
+        
+        # Конвертируем задачи в формат для GitHub
+        github_tasks = []
+        for task in tasks:
+            priority_map = {5: 'High', 4: 'High', 3: 'Medium', 2: 'Low', 1: 'Low'}
+            github_tasks.append({
+                'title': task.title,
+                'description': f"{task.description}\n\n**ID задачи:** {task.id}\n**Тип агента:** {task.agent_type}",
+                'agent_type': task.agent_type,
+                'priority': priority_map.get(task.priority, 'Medium')
+            })
+        
+        # Создаём клиент и синхронизируем
+        client = GitHubProjectsV2()
+        result = client.sync_project_with_github(
+            ai_project_id=project_id,
+            ai_project_name=project.name,
+            tasks=github_tasks
+        )
+        
+        return jsonify({
+            'success': True,
+            'message': f'✅ Проект синхронизирован с GitHub Projects v2',
+            'github_project_url': result['project_url'],
+            'project_number': result['project_number'],
+            'issues_created': result['issues_created'],
+            'tasks': [t.title for t in tasks]
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': '❌ Ошибка синхронизации с GitHub Projects v2'
+        }), 500
