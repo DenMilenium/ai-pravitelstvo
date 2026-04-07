@@ -657,6 +657,22 @@ class TaskExecutor:
                         print(f"⚠️ Автопуш не удался: {e}")
                         autopush_result = {'error': str(e)}
                 
+                # 📊 Логируем в аналитику
+                try:
+                    from orchestrator.utils.analytics import AnalyticsEngine
+                    analytics = AnalyticsEngine()
+                    analytics.log_event(
+                        agent_type=task.agent_type,
+                        agent_name=executor.NAME if hasattr(executor, 'NAME') else task.agent_type,
+                        event_type='success',
+                        project_id=task.project_id,
+                        task_id=task.id,
+                        artifacts_count=len(result['artifacts']),
+                        metadata={'autopush': bool(autopush_result)}
+                    )
+                except Exception as e:
+                    print(f"⚠️ Analytics log failed: {e}")
+                
                 return {
                     'success': True,
                     'message': result['message'],
@@ -665,10 +681,42 @@ class TaskExecutor:
                 }
             else:
                 self.db.update_task_status(task_id, TaskStatus.FAILED)
+                
+                # 📊 Логируем ошибку в аналитику
+                try:
+                    from orchestrator.utils.analytics import AnalyticsEngine
+                    analytics = AnalyticsEngine()
+                    analytics.log_event(
+                        agent_type=task.agent_type,
+                        agent_name=executor.NAME if hasattr(executor, 'NAME') else task.agent_type,
+                        event_type='error',
+                        project_id=task.project_id,
+                        task_id=task.id,
+                        error_message=result.get('message', 'Unknown error')
+                    )
+                except Exception as e:
+                    print(f"⚠️ Analytics log failed: {e}")
+                
                 return result
                 
         except Exception as e:
             self.db.update_task_status(task_id, TaskStatus.FAILED)
+            
+            # 📊 Логируем исключение в аналитику
+            try:
+                from orchestrator.utils.analytics import AnalyticsEngine
+                analytics = AnalyticsEngine()
+                analytics.log_event(
+                    agent_type=task.agent_type if task else 'unknown',
+                    agent_name=executor.NAME if executor and hasattr(executor, 'NAME') else 'unknown',
+                    event_type='error',
+                    project_id=task.project_id if task else None,
+                    task_id=task_id,
+                    error_message=str(e)
+                )
+            except Exception as analytics_e:
+                print(f"⚠️ Analytics log failed: {analytics_e}")
+            
             return {'success': False, 'message': f'Ошибка: {str(e)}'}
     
     def _save_artifacts(self, task: Task, artifacts: Dict[str, str]):
