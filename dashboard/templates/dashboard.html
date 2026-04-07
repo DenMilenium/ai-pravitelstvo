@@ -25,6 +25,81 @@
             --info: #3b82f6;
         }
 
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 🌙 Dark Theme */
+        [data-theme="dark"] {
+            --bg: #0f0f23;
+            --card-bg: #1a1a2e;
+            --text: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --secondary: #16213e;
+        }
+
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(26, 26, 46, 0.95);
+            border-bottom-color: #333;
+        }
+
+        [data-theme="dark"] .card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid #333;
+        }
+
+        [data-theme="dark"] .stat-card:hover {
+            box-shadow: 0 20px 40px -10px rgba(233, 69, 96, 0.3);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: var(--bg);
@@ -115,12 +190,19 @@
             border-radius: 16px;
             padding: 24px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
         }
 
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(233, 69, 96, 0.2);
         }
 
         .stat-header {
@@ -860,6 +942,114 @@
                 closePasswordModal();
             }
         });
+
+        // 🔔 Toast Notifications
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+                <span class="toast-message">${message}</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // 🔄 Loading Spinner
+        function showLoading() {
+            const spinner = document.createElement('div');
+            spinner.id = 'globalLoader';
+            spinner.className = 'global-loader';
+            spinner.innerHTML = `
+                <div class="spinner">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-text">Загрузка...</div>
+                </div>
+            `;
+            document.body.appendChild(spinner);
+        }
+
+        function hideLoading() {
+            const spinner = document.getElementById('globalLoader');
+            if (spinner) spinner.remove();
+        }
     </script>
+    
+    <!-- Toast Styles -->
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #fff;
+            color: #333;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            border-left: 4px solid var(--info);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast-success { border-left-color: var(--success); }
+        .toast-error { border-left-color: var(--danger); }
+        .toast-info { border-left-color: var(--info); }
+        
+        .toast-icon { font-size: 20px; }
+        .toast-message { font-weight: 500; }
+        
+        /* Global Loader */
+        .global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+        
+        .spinner {
+            text-align: center;
+        }
+        
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f4f6;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .spinner-text {
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </body>
 </html>

@@ -773,6 +773,125 @@ def api_agents_stop_all():
     })
 
 
+# ==================== 🚀 DEPLOY API ====================
+
+@app.route('/api/deploy/targets')
+@login_required
+def api_deploy_targets():
+    """API: Список доступных таргетов деплоя"""
+    from orchestrator.utils.auto_deploy import AutoDeployer
+    return jsonify({
+        'targets': AutoDeployer.DEPLOY_TARGETS
+    })
+
+
+@app.route('/api/deploy', methods=['POST'])
+@login_required
+def api_deploy():
+    """API: Деплой проекта"""
+    data = request.json
+    project_path = data.get('project_path')
+    target = data.get('target')
+    config = data.get('config', {})
+    
+    if not project_path or not target:
+        return jsonify({'success': False, 'error': 'Укажите project_path и target'})
+    
+    from orchestrator.utils.auto_deploy import AutoDeployer
+    
+    deployer = AutoDeployer(project_path)
+    result = deployer.deploy(target, config)
+    
+    # Логируем деплой
+    log_activity(f"Деплой {target}", f"Проект: {project_path}, Статус: {'✅' if result['success'] else '❌'}")
+    
+    return jsonify(result)
+
+
+@app.route('/api/deploy/status')
+@login_required
+def api_deploy_status():
+    """API: Статус деплоя проекта"""
+    project_path = request.args.get('project_path')
+    
+    if not project_path:
+        return jsonify({'error': 'Укажите project_path'})
+    
+    from orchestrator.utils.auto_deploy import AutoDeployer
+    
+    deployer = AutoDeployer(project_path)
+    return jsonify(deployer.get_deploy_status())
+
+
+# ==================== 📊 MONITORING API ====================
+
+@app.route('/api/monitoring/system')
+@login_required
+def api_monitoring_system():
+    """API: Системная статистика"""
+    from orchestrator.utils.monitoring import SystemMonitor
+    
+    monitor = SystemMonitor()
+    return jsonify(monitor.get_system_stats())
+
+
+@app.route('/api/monitoring/alerts')
+@login_required
+def api_monitoring_alerts():
+    """API: Активные алерты"""
+    from orchestrator.utils.monitoring import SystemMonitor
+    
+    monitor = SystemMonitor()
+    return jsonify({'alerts': monitor.get_alerts()})
+
+
+@app.route('/api/monitoring/processes')
+@login_required
+def api_monitoring_processes():
+    """API: Процессы Dashboard"""
+    from orchestrator.utils.monitoring import SystemMonitor
+    
+    monitor = SystemMonitor()
+    return jsonify({'processes': monitor.get_dashboard_processes()})
+
+
+@app.route('/api/monitoring/report')
+@login_required
+def api_monitoring_report():
+    """API: Полный отчёт о системе"""
+    from orchestrator.utils.monitoring import SystemMonitor
+    
+    monitor = SystemMonitor()
+    return jsonify(monitor.generate_report())
+
+
+@app.route('/api/monitoring/health')
+def api_health_check():
+    """API: Health check (публичный)"""
+    from orchestrator.utils.monitoring import MonitoringAPI
+    
+    api = MonitoringAPI()
+    return jsonify(api.get_health_check())
+
+
+# ==================== 🔧 SYSTEM API ====================
+
+@app.route('/api/system/info')
+@login_required
+def api_system_info():
+    """API: Информация о системе"""
+    import platform
+    
+    return jsonify({
+        'platform': platform.platform(),
+        'python': platform.python_version(),
+        'processor': platform.processor(),
+        'machine': platform.machine(),
+        'node': platform.node(),
+        'timestamp': datetime.now().isoformat()
+    })
+
+
 if __name__ == '__main__':
     init_db()
     print("🎛️ Dashboard API запущен!")
