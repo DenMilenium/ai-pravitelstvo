@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # Frontend Next.js
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.court.gov.ru}
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.court.gov.ru}
+    networks:
+      - court-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`court.gov.ru`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+
+  # Backend FastAPI
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://court_user:court_pass@db:5432/court_db}
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on:
+      - db
+      - redis
+    networks:
+      - court-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.court.gov.ru`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+    volumes:
+      - ./uploads:/app/uploads
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=court_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-court_pass}
+      - POSTGRES_DB=court_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - court-network
+    labels:
+      - "traefik.enable=false"
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    restart: always
+    networks:
+      - court-network
+    volumes:
+      - redis_data:/data
+    labels:
+      - "traefik.enable=false"
+
+  # Traefik Reverse Proxy + SSL
+  traefik:
+    image: traefik:v3.0
+    restart: always
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=admin@court.gov.ru"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - court-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.court.gov.ru`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
+
+  # Database Backup (ежедневный)
+  backup:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=court_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-court_pass}
+      - POSTGRES_DB=court_db
+    volumes:
+      - ./backups:/backups
+    command: >
+      sh -c '
+        echo "0 2 * * * pg_dump -h db -U court_user court_db > /backups/backup_$$(date +\%Y\%m\%d_\%H\%M\%S).sql" | crontab -
+        crond -f
+      '
+    networks:
+      - court-network
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=false"
+
+networks:
+  court-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
