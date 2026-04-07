@@ -465,18 +465,128 @@ class TaskExecutor:
             ContentAgentExecutor(self.db),
         ]
         
-        # 🆕 Подключаем новых агентов (если доступны)
-        try:
-            from orchestrator.agents.react_agent import ReactAgentExecutor
-            self.executors.append(ReactAgentExecutor(self.db))
-        except ImportError as e:
-            print(f"⚠️ React Agent не загружен: {e}")
+        # 🆕 Реальные агенты с генерацией кода
+        additional_agents = [
+            # Основные фреймворки
+            ('orchestrator.agents.react_agent', 'ReactAgentExecutor'),
+            ('orchestrator.agents.django_agent', 'DjangoAgentExecutor'),
+            ('orchestrator.agents.electron_agent', 'ElectronAgentExecutor'),
+            ('orchestrator.agents.vue_agent', 'VueAgentExecutor'),
+            ('orchestrator.agents.fastapi_agent', 'FastAPIAgentExecutor'),
+            ('orchestrator.agents.nodejs_agent', 'NodeJSAgentExecutor'),
+            # Дополнительные агенты (multi_agents.py)
+            ('orchestrator.agents.multi_agents', 'GoAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'AngularAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'SvelteAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'NextJSAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'LaravelAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'RubyAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'DatabaseAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'DockerAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'KubernetesAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'TerraformAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'TestingAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'DocumentationAgentExecutor'),
+            ('orchestrator.agents.multi_agents', 'SecurityAgentExecutor'),
+            # Мобильные и AI агенты
+            ('orchestrator.agents.mobile_ai_agents', 'FlutterAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'iOSAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'AndroidAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'RustAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'JavaAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'CSharpAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'GraphQLAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'AnalyticsAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'SEOAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'PWAAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'GameDevAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'AIMLAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'NotificationAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'ChatbotAgentExecutor'),
+            ('orchestrator.agents.mobile_ai_agents', 'EmailAgentExecutor'),
+            # Облачные и DevOps агенты
+            ('orchestrator.agents.cloud_devops_agents', 'AWSAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'AzureAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'GCPAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'GitHubActionsAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'GitLabCIAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'JenkinsAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'RedisAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'MongoDBAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'PostgresAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'PrometheusAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'GrafanaAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'NginxAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'ApacheAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'RabbitMQAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'KafkaAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'ElasticsearchAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'CDNAgentExecutor'),
+            ('orchestrator.agents.cloud_devops_agents', 'SSLAgentExecutor'),
+            # Frontend и CMS агенты
+            ('orchestrator.agents.frontend_cms_agents', 'WordPressAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'ShopifyAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'GatsbyAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'HugoAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'JekyllAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'PreactAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'AlpineAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'LitAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'StimulusAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'SolidAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'QwikAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'AstroAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'NuxtAgentExecutor'),
+            ('orchestrator.agents.frontend_cms_agents', 'RemixAgentExecutor'),
+            # Утилиты
+            ('orchestrator.agents.utility_agents', 'BashAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'PowerShellAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'MakefileAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'SwaggerAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'PostmanAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'TSConfigAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'ESLintAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'PrettierAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'WebpackAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'ViteConfigAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'RollupAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'ParcelAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'JestConfigAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'CypressAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'PlaywrightAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'StorybookAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'ChromaticAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'SentryAgentExecutor'),
+            ('orchestrator.agents.utility_agents', 'LogRocketAgentExecutor'),
+            # Специализированные агенты
+            ('orchestrator.agents.special_agents', 'BackupAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'MigrationAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'LocalizationAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'AccessibilityAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'PerformanceAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'Web3AgentExecutor'),
+            ('orchestrator.agents.special_agents', 'IoTAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'ARVRAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'VoiceAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'PDFAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'SpreadsheetAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'QRCodeAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'ImageProcessingAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'VideoAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'AudioAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'ScrapingAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'CronAgentExecutor'),
+            ('orchestrator.agents.special_agents', 'WebhookAgentExecutor'),
+        ]
         
-        try:
-            from orchestrator.agents.django_agent import DjangoAgentExecutor
-            self.executors.append(DjangoAgentExecutor(self.db))
-        except ImportError as e:
-            print(f"⚠️ Django Agent не загружен: {e}")
+        for module_name, class_name in additional_agents:
+            try:
+                module = __import__(module_name, fromlist=[class_name])
+                agent_class = getattr(module, class_name)
+                self.executors.append(agent_class(self.db))
+                print(f"✅ {class_name} загружен")
+            except Exception as e:
+                print(f"⚠️ {class_name} не загружен: {e}")
     
     def execute_task(self, task_id: str) -> Dict:
         """
