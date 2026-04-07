@@ -305,6 +305,63 @@ def api_logs():
         'time': l[4]
     } for l in logs])
 
+@app.route('/agent/<agent_type>')
+@login_required
+def agent_chat(agent_type):
+    """Страница чата с агентом"""
+    
+    # Информация об агентах
+    agents_info = {
+        'frontend': {
+            'name': 'Frontend Agent',
+            'role': 'Frontend Developer',
+            'icon': '🎨',
+            'description': 'Создаёт HTML, CSS, JavaScript код'
+        },
+        'backend': {
+            'name': 'Backend Agent',
+            'role': 'Backend Developer',
+            'icon': '⚙️',
+            'description': 'Создаёт серверный код, API'
+        },
+        'devops': {
+            'name': 'DevOps Agent',
+            'role': 'DevOps Engineer',
+            'icon': '🚀',
+            'description': 'Настраивает Docker, CI/CD'
+        },
+        'content': {
+            'name': 'Content Agent',
+            'role': 'Content Manager',
+            'icon': '📝',
+            'description': 'Создаёт документацию'
+        },
+        'design': {
+            'name': 'Design Agent',
+            'role': 'UI/UX Designer',
+            'icon': '✨',
+            'description': 'Создаёт дизайн и макеты'
+        }
+    }
+    
+    info = agents_info.get(agent_type, {
+        'name': f'{agent_type.title()} Agent',
+        'role': 'AI Agent',
+        'icon': '🤖',
+        'description': 'AI агент'
+    })
+    
+    return render_template('agent_chat.html',
+        agent_type=agent_type,
+        agent_name=info['name'],
+        agent_role=info['role'],
+        agent_icon=info['icon'],
+        agent_description=info['description'],
+        current_time=datetime.now().strftime('%H:%M'),
+        github_repo='DenMilenium/ai-pravitelstvo'
+    )
+
+
 @app.route('/api/user')
 @login_required
 def api_user():

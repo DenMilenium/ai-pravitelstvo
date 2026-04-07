@@ -13,6 +13,7 @@ from orchestrator.agents.teamlead_agent import TeamLeadAgent
 from orchestrator.core.project_manager import ProjectManager
 from orchestrator.core.task_executor import TaskExecutor
 from orchestrator.core.deploy_agent import deploy_project_api, get_deployed_projects_api, undeploy_project_api
+from orchestrator.core.github_client import get_github_client
 
 # Создаём Blueprint
 orchestrator_bp = Blueprint('orchestrator', __name__, url_prefix='/api/orchestrator')
@@ -281,3 +282,198 @@ def get_deployed_projects_endpoint():
     """Получить список развёрнутых проектов"""
     projects = get_deployed_projects_api(db)
     return jsonify({'projects': projects})
+
+
+# ========== GitHub Integration ==========
+
+@orchestrator_bp.route('/github/sync-project/<project_id>', methods=['POST'])
+def sync_project_to_github(project_id):
+    """Синхронизировать проект с GitHub Projects и Issues"""
+    try:
+        # Получаем проект и задачи
+        project = db.get_project(project_id)
+        if not project:
+            return jsonify({'success': False, 'error': 'Проект не найден'}), 404
+        
+        tasks = db.get_tasks_by_project(project_id)
+        
+        # Преобразуем задачи в dict
+        tasks_data = []
+        for task in tasks:
+            tasks_data.append({
+                'id': task.id,
+                'title': task.title,
+                'agent_type': task.agent_type,
+                'status': task.status.value if hasattr(task.status, 'value') else task.status,
+                'priority': task.priority,
+                'description': task.description,
+                'project_id': task.project_id
+            })
+        
+        # Синхронизируем с GitHub
+        client = get_github_client()
+        result = client.sync_project_to_github(
+            {'name': project.name, 'description': project.description or ''},
+            tasks_data
+        )
+        
+        return jsonify({
+            'success': True,
+            'message': '✅ Проект синхронизирован с GitHub!',
+            'github_project_url': result['project']['html_url'],
+            'issues_created': result['total'],
+            'project': result['project']
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@orchestrator_bp.route('/github/issues', methods=['GET'])
+def get_github_issues():
+    """Получить список задач из GitHub"""
+    try:
+        client = get_github_client()
+        state = request.args.get('state', 'open')
+        issues = client.list_issues(state=state)
+        return jsonify({'success': True, 'issues': issues, 'count': len(issues)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@orchestrator_bp.route('/github/create-issue', methods=['POST'])
+def create_github_issue():
+    """Создать задачу в GitHub"""
+    try:
+        data = request.get_json()
+        client = get_github_client()
+        
+        issue = client.create_issue(
+            title=data.get('title'),
+            body=data.get('body', ''),
+            labels=data.get('labels', []),
+            assignee=data.get('assignee')
+        )
+        
+        return jsonify({
+            'success': True,
+            'message': '✅ Задача создана в GitHub!',
+            'issue_url': issue['html_url'],
+            'issue': issue
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@orchestrator_bp.route('/github/push-file', methods=['POST'])
+def push_file_to_github():
+    """Загрузить файл в репозиторий GitHub"""
+    try:
+        data = request.get_json()
+        client = get_github_client()
+        
+        result = client.create_or_update_file(
+            path=data.get('path'),
+            content=data.get('content'),
+            message=data.get('message', 'Update from AI Правительство'),
+            branch=data.get('branch', 'main')
+        )
+        
+        return jsonify({
+            'success': True,
+            'message': '✅ Файл загружен в GitHub!',
+            'file_url': result['content']['html_url'] if 'content' in result else None,
+            'commit': result.get('commit', {})
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ========== Agent Chat ==========
+
+@orchestrator_bp.route('/agent/<agent_type>/chat', methods=['POST'])
+def chat_with_agent(agent_type):
+    """Чат с агентом"""
+    try:
+        data = request.get_json()
+        message = data.get('message', '')
+        context = data.get('context', {})
+        
+        # Получаем информацию об агенте
+        agent_info = {
+            'frontend': {
+                'name': 'Frontend Agent',
+                'role': 'Frontend Developer',
+                'icon': '🎨',
+                'description': 'Создаёт HTML, CSS, JavaScript код'
+            },
+            'backend': {
+                'name': 'Backend Agent',
+                'role': 'Backend Developer',
+                'icon': '⚙️',
+                'description': 'Создаёт серверный код, API'
+            },
+            'devops': {
+                'name': 'DevOps Agent',
+                'role': 'DevOps Engineer',
+                'icon': '🚀',
+                'description': 'Настраивает Docker, CI/CD'
+            },
+            'content': {
+                'name': 'Content Agent',
+                'role': 'Content Manager',
+                'icon': '📝',
+                'description': 'Создаёт документацию'
+            },
+            'design': {
+                'name': 'Design Agent',
+                'role': 'UI/UX Designer',
+                'icon': '✨',
+                'description': 'Создаёт дизайн и макеты'
+            }
+        }
+        
+        info = agent_info.get(agent_type, {
+            'name': f'{agent_type.title()} Agent',
+            'role': 'AI Agent',
+            'icon': '🤖',
+            'description': 'AI агент'
+        })
+        
+        # Формируем ответ от агента
+        if 'привет' in message.lower() or 'hello' in message.lower():
+            reply = f"{info['icon']} Привет! Я {info['name']}. {info['description']}. Чем могу помочь?"
+        elif 'что ты умеешь' in message.lower() or 'skills' in message.lower():
+            reply = f"{info['icon']} Я {info['role']}. Моя задача — {info['description']}. Могу выполнять задачи из очереди и генерировать код."
+        elif 'задачи' in message.lower() or 'tasks' in message.lower():
+            # Получаем задачи для этого агента
+            tasks = db.get_pending_tasks(agent_type)
+            if tasks:
+                reply = f"{info['icon']} У меня {len(tasks)} задач в очереди:\n"
+                for i, task in enumerate(tasks[:5], 1):
+                    reply += f"{i}. {task.title}\n"
+            else:
+                reply = f"{info['icon']} У меня нет задач в очереди. Всё выполнено! ✅"
+        elif 'выполни' in message.lower() or 'execute' in message.lower():
+            # Выполняем первую ожидающую задачу
+            executor = TaskExecutor(db)
+            results = executor.execute_pending_tasks(agent_type)
+            if results:
+                result = results[0]
+                if result['success']:
+                    reply = f"{info['icon']} ✅ Выполнил задачу '{result['task_title']}'! {result.get('message', '')}"
+                else:
+                    reply = f"{info['icon']} ❌ Ошибка: {result.get('message', 'Неизвестная ошибка')}"
+            else:
+                reply = f"{info['icon']} Нет задач для выполнения."
+        else:
+            reply = f"{info['icon']} Я понял: \"{message}\". Для выполнения задач используй кнопку '▶️ Выполнить' в проекте, или напиши 'выполни задачи'."
+        
+        return jsonify({
+            'success': True,
+            'agent': agent_type,
+            'agent_info': info,
+            'reply': reply,
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
